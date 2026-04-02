@@ -2,25 +2,15 @@ services:
   mynginx:
     image: nginx
     ports:
-      - "9090:80"
-    networks:
-      - mynet
+      - "8080:80"
 
-  myubuntu:
-    image: ubuntu
-    networks:
-      - mynet
 
   renatmysql:
     image: mysql
     environment:
-      - MYSQL_PASSWORD:1234
-    networks:
-      - mynet
+      - MYSQL_ROOT_PASSWORD:1234
+    volumes:
+      - mydata:/var/lib/mysql
 
-  myredis:
-    image: redis
-    
-
-networks:
-  mynet:
+volumes:
+  mydata:

@@ -334,3 +334,327 @@ myredis-1     | 1:M 01 Apr 2026 15:44:32.955 * Server initialized
 myredis-1     | 1:M 01 Apr 2026 15:44:32.955 * Ready to accept connections tcp
 myredis-1     | 1:M 01 Apr 2026 15:44:32.955 # WARNING: Redis does not require authentication and is not protected by network restrictions. Redis will accept connections from any IP address on any network interface.
 PS C:\Users\User\Desktop\devroad\week-13> 
+
+======================================================
+11.Сделай проект: nginx + mysql
+
+
+Решение
+services:
+  mynginx:
+    image: nginx
+    ports:
+      - "8080:80"
+
+
+  renatmysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD:1234
+  
+
+в терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 1/1
+ ✔ Network week-13_default  Created                                                                                                                                         0.1s 
+[+] Running 3/31T22:52:16+06:00" level=warning msg="Found orphan containers ([week-13-mysql-1]) for this project. If you removed or renamed this service in your compose file, yo
+ ✔ Network week-13_default         Created                                                                                                                                  0.1s 
+ ✔ Container week-13-renatmysql-1  Started                                                                                                                                  0.6s 
+ ✔ Container week-13-mynginx-1     Started                                                                                                                                  0.6s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                     NAMES
+e8bc465b1b92   nginx     "/docker-entrypoint.…"   15 seconds ago   Up 15 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-mynginx-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+================================================
+12.Добавь volume для mysql
+
+
+Решение
+services:
+  mynginx:
+    image: nginx
+    ports:
+      - "8080:80"
+
+
+  renatmysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD:1234
+    volumes:
+      - mydata:/var/lib/mysql
+
+volumes:
+  mydata:
+  
+
+в терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default         Created                                                                                                                                  0.1s 
+ ✔ Container week-13-mynginx-1     Started                                                                                                                                  0.5s 
+ ✔ Container week-13-renatmysql-1  Started                                                                                                                                  0.5s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+cc261ec9c9fc   nginx     "/docker-entrypoint.…"   7 seconds ago   Up 5 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-mynginx-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+==================================================
+13.Сделай node + mongo
+
+Решение
+services:
+  mynode:
+    image: node
+    command: sleep infinity
+  mymongo:
+    image: mongo
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 0/1
+ - Network week-13_default  Creating                                                                                                                                        0.0s 
+[+] Running 3/32T08:36:03+06:00" level=warning msg="Found orphan containers ([week-13-backend-1 week-13-mysql-1]) for this project. If you removed or renamed this service in you
+ ✔ Network week-13_default      Created                                                                                                                                     0.1s 
+ ✔ Container week-13-mynode-1   Started                                                                                                                                     0.9s 
+ ✔ Container week-13-mymongo-1  Started                                                                                                                                     0.9s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS       NAMES
+de3dfc95e763   node      "docker-entrypoint.s…"   18 seconds ago   Up 17 seconds               week-13-mynode-1
+72549aae21c6   mongo     "docker-entrypoint.s…"   18 seconds ago   Up 17 seconds   27017/tcp   week-13-mymongo-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+  
+  
+================================================
+14.Добавь restart: always
+
+
+
+Решение
+services:
+  mynode:
+    image: node
+    command: sleep infinity
+    restart: always
+  mymongo:
+    image: mongo
+    restart: always
+
+
+
+в терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 0/1
+ - Network week-13_default  Creating                                                                                                                                        0.0s 
+[+] Running 3/32T08:37:09+06:00" level=warning msg="Found orphan containers ([week-13-backend-1 week-13-mysql-1]) for this project. If you removed or renamed this service in you
+ ✔ Network week-13_default      Created                                                                                                                                     0.1s 
+ ✔ Container week-13-mynode-1   Started                                                                                                                                     0.8s 
+ ✔ Container week-13-mymongo-1  Started                                                                                                                                     0.8s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS       NAMES
+4e1e2707c037   mongo     "docker-entrypoint.s…"   4 seconds ago   Up 2 seconds   27017/tcp   week-13-mymongo-1
+d2ecf642f490   node      "docker-entrypoint.s…"   4 seconds ago   Up 2 seconds               week-13-mynode-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+==========================================
+15.Используй depends_on
+
+
+
+Решение
+services:
+  mynode:
+    image: node
+    command: sleep infinity
+    restart: always
+    depends_on:
+      - mymongo
+  mymongo:
+    image: mongo
+    restart: always
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 0/1
+ - Network week-13_default  Creating                                                                                                                                        0.0s 
+[+] Running 3/32T08:38:18+06:00" level=warning msg="Found orphan containers ([week-13-backend-1 week-13-mysql-1]) for this project. If you removed or renamed this service in you
+ ✔ Network week-13_default      Created                                                                                                                                     0.1s 
+ ✔ Container week-13-mymongo-1  Started                                                                                                                                     0.8s 
+ ✔ Container week-13-mynode-1   Started                                                                                                                                     0.8s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS       NAMES
+8756ca736184   node      "docker-entrypoint.s…"   4 seconds ago   Up 4 seconds               week-13-mynode-1
+fd15937f9100   mongo     "docker-entrypoint.s…"   4 seconds ago   Up 2 seconds   27017/tcp   week-13-mymongo-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+=========================================
+16.Сделай свой network
+
+
+Решение
+services:
+  mynode:
+    image: node
+    command: sleep infinity
+    restart: always
+    networks:
+      - mynet
+    depends_on:
+      - mymongo
+    
+  mymongo:
+    image: mongo
+    restart: always
+    networks:
+      - mynet
+
+networks:
+  mynet:
+
+
+в терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 1/1
+ ✔ Network week-13_mynet  Created                                                                                                                                           0.1s 
+[+] Running 3/32T08:40:21+06:00" level=warning msg="Found orphan containers ([week-13-backend-1 week-13-mysql-1]) for this project. If you removed or renamed this service in you
+ ✔ Network week-13_mynet        Created                                                                                                                                     0.1s 
+ ✔ Container week-13-mymongo-1  Started                                                                                                                                     0.9s 
+ ✔ Container week-13-mynode-1   Started                                                                                                                                     1.0s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS       NAMES
+655ef7182f9d   node      "docker-entrypoint.s…"   4 seconds ago   Up 3 seconds               week-13-mynode-1
+f0dd48cb02b1   mongo     "docker-entrypoint.s…"   4 seconds ago   Up 3 seconds   27017/tcp   week-13-mymongo-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it f0dd48cb02b1 bash
+root@f0dd48cb02b1:/# ping node
+bash: ping: command not found
+root@f0dd48cb02b1:/# ping week-13-mymongo-1
+bash: ping: command not found
+root@f0dd48cb02b1:/# apt update && install ping
+Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:2 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+Get:3 http://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.2 InRelease [3005 B]        
+Get:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:5 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1955 kB]
+Get:6 http://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.2/multiverse amd64 Packages [25.7 kB]
+Get:7 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+Get:9 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+Get:10 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [34.8 kB]
+Get:11 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1504 kB]
+Get:12 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+Get:13 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [3429 kB]
+Get:14 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]
+Get:15 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [3669 kB]
+Get:16 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2156 kB]
+Get:17 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [38.1 kB]
+Get:18 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [2366 kB]
+Get:19 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [695 B]
+Get:20 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.1 kB]
+Get:21 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.5 kB]
+Fetched 37.5 MB in 6s (6175 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+19 packages can be upgraded. Run 'apt list --upgradable' to see them.
+install: missing destination file operand after 'ping'
+Try 'install --help' for more information.
+root@f0dd48cb02b1:/# ping week-13-mymongo-1
+bash: ping: command not found
+root@f0dd48cb02b1:/# ping mongo            
+bash: ping: command not found
+root@f0dd48cb02b1:/# ping mynginx
+bash: ping: command not found
+root@f0dd48cb02b1:/#
+
+=====================================================
+17.Подключи adminer к mysql
+
+
+Решение
+services:
+  renatmysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
+
+
+в терминале
+
+======================================================
+18.Сделай 3 контейнера: nginx + backend + db
+
+
+Решение
+services:
+  mynginx:
+    image: nginx
+    ports:
+      - "8080:80"
+  
+  backend:
+    image: python:3.12
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: 1234
+
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker-compose up -d
+[+] Running 0/1
+ - Network week-13_default  Creating                                                                                                                                        0.0s 
+[+] Running 4/42T08:17:49+06:00" level=warning msg="Found orphan containers ([week-13-mysql-1]) for this project. If you removed or renamed this service in your compose file, yo
+ ✔ Network week-13_default      Created                                                                                                                                     0.1s 
+ ✔ Container week-13-db-1       Started                                                                                                                                     1.0s 
+ ✔ Container week-13-mynginx-1  Started                                                                                                                                     1.0s 
+ ✔ Container week-13-backend-1  Started                                                                                                                                     0.9s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS                  PORTS                                     NAMES
+836458fa4261   postgres   "docker-entrypoint.s…"   3 seconds ago   Up Less than a second   5432/tcp                                  week-13-db-1
+4ac98b8b8aaa   nginx      "/docker-entrypoint.…"   3 seconds ago   Up Less than a second   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-mynginx-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+=========================================
+19.Попробуй изменить контейнер без пересборки
+
+Решение в терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose restart
+[+] Restarting 3/3
+ ✔ Container week-13-db-1       Started                                                                                                                                     0.8s 
+ ✔ Container week-13-mynginx-1  Started                                                                                                                                     0.9s 
+ ✔ Container week-13-backend-1  Started                                                                                                                                     0.5s 
+PS C:\Users\User\Desktop\devroad\week-13>
+
+=========================================
+20.Удали всё и запусти заново
+
+Решение в терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose down      
+[+] Running 4/4
+ ✔ Container week-13-backend-1  Removed                                                                                                                                     0.1s 
+ ✔ Container week-13-mynginx-1  Removed                                                                                                                                     0.5s 
+ ✔ Container week-13-db-1       Removed                                                                                                                                     0.5s 
+ ✔ Network week-13_default      Removed                                                                                                                                     0.3s 
+PS C:\Users\User\Desktop\devroad\week-13> docker-compose up -d                                                                                                                   
+[+] Running 0/1
+ - Network week-13_default  Creating                                                                                                                                        0.0s 
+[+] Running 4/42T08:19:49+06:00" level=warning msg="Found orphan containers ([week-13-mysql-1]) for this project. If you removed or renamed this service in your compose file, yo
+ ✔ Network week-13_default      Created                                                                                                                                     0.1s 
+ ✔ Container week-13-backend-1  Started                                                                                                                                     0.8s 
+ ✔ Container week-13-db-1       Started                                                                                                                                     0.7s 
+ ✔ Container week-13-mynginx-1  Started                                                                                                                                     0.7s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+5893f8ccb4ca   postgres   "docker-entrypoint.s…"   4 seconds ago   Up 3 seconds   5432/tcp                                  week-13-db-1
+4129719e1adf   nginx      "/docker-entrypoint.…"   4 seconds ago   Up 3 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-mynginx-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+==============================================
