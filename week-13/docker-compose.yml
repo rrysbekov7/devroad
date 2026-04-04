@@ -1,16 +1,10 @@
 services:
-  mynginx:
+  rename_web:
     image: nginx
     ports:
       - "8080:80"
-
-
-  renatmysql:
-    image: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD:1234
     volumes:
-      - mydata:/var/lib/mysql
+      - ./data:/app/data
 
 volumes:
-  mydata:
+  data:

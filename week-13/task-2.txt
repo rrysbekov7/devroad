@@ -1,0 +1,485 @@
+1-100 tasks Docker-Compose
+
+2.Проверь версию docker-compose --version
+
+Решение:
+PS C:\Users\User\Desktop\devroad\week-13> docker-compose --version
+Docker Compose version v2.40.3-desktop.1
+
+=======================================
+3.Создай файл docker-compose.yml
+Решение:
+создал файл docker-compose.yml в папке week-13
+
+=======================================
+4.Запусти контейнер nginx через compose
+
+Решение
+services:
+  mynginx:
+    image: nginx
+    
+
+в терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 2/2
+ ✔ Network week-13_default      Created                                                                                                                                     0.0s 
+ ✔ Container week-13-mynginx-1  Started                                                                                                                                     0.4s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+caa741c24659   nginx     "/docker-entrypoint.…"   9 seconds ago   Up 9 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-mynginx-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+========================================
+5.Пробрось порт 8080:80
+
+Решение
+services:
+  mynginx:
+    image: nginx
+    ports:
+      - "8080:80"
+
+
+
+в терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 2/2
+ ✔ Network week-13_default      Created                                                                                                                                     0.0s 
+ ✔ Container week-13-mynginx-1  Started                                                                                                                                     0.6s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+04cb3ad65959   nginx     "/docker-entrypoint.…"   2 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-mynginx-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+=========================================
+6.Останови контейнер через compose
+
+Решение
+PS C:\Users\User\Desktop\devroad\week-13> docker compose down --remove-orphans
+[+] Running 2/2
+ ✔ Container week-13-mynginx-1  Removed                                                                                                                                     0.6s 
+ ✔ Network week-13_default      Removed                                                                                                                                     0.4s 
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+==========================================
+7.Удали контейнер через compose
+
+Решение
+PS C:\Users\User\Desktop\devroad\week-13> docker compose down --remove-orphans
+[+] Running 2/2
+ ✔ Container week-13-mynginx-1  Removed                                                                                                                                     0.6s 
+ ✔ Network week-13_default      Removed   
+
+==========================================
+8.Запусти контейнер в фоне (-d)
+9.Посмотри список контейнеров
+
+Решение
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 2/2
+ ✔ Network week-13_default      Created                                                                                                                                     0.0s 
+ ✔ Container week-13-mynginx-1  Started                                                                                                                                     0.6s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+af52d0162116   nginx     "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-mynginx-1
+PS C:\Users\User\Desktop\devroad\week-13>
+
+============================================
+10.Посмотри логи контейнера
+
+Решение
+mynginx-1  | /docker-entrypoint.sh: Configuration complete; ready for start up
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: using the "epoll" event method
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: nginx/1.29.7
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: built by gcc 14.2.0 (Debian 14.2.0-19)
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: OS: Linux 6.6.87.2-microsoft-standard-WSL2
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker processes
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 29
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 30
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 31
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 32
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 33
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 34
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 35
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 36
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 37
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 38
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 39
+mynginx-1  | 2026/04/02 06:44:00 [notice] 1#1: start worker process 40
+
+===================================================
+11.Создай сервис с именем web
+12.Добавь второй сервис app
+13.Запусти два сервиса одновременно
+
+Решение
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+
+  app:
+    image: busybox
+    command: sleep 3600
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ app Pulled                                                                                                                                                               5.0s 
+   ✔ 481282afbc43 Pull complete                                                                                                                                             1.4s 
+   ✔ aecba0016ef2 Download complete                                                                                                                                         0.1s 
+[+] Running 3/3
+ ✔ Network week-13_default  Created                                                                                                                                         0.0s 
+ ✔ Container week-13-web-1  Started                                                                                                                                         0.5s 
+ ✔ Container week-13-app-1  Started                                                                                                                                         0.5s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+2f014f2e2d3b   nginx     "/docker-entrypoint.…"   4 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-web-1
+31cd7b831eb1   busybox   "sleep 3600"             4 seconds ago   Up 2 seconds                                             week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13>
+
+=========================================
+14.Используй depends_on
+
+
+Решение
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+  app:
+    image: busybox
+    command: sleep 3600
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default  Created                                                                                                                                         0.1s 
+ ✔ Container week-13-app-1  Started                                                                                                                                         1.0s 
+ ✔ Container week-13-web-1  Started                                                                                                                                         1.0s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+e89b81d1fce8   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 1 second    0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-web-1
+ce53bdb6dd12   busybox   "sleep 3600"             4 seconds ago   Up 2 seconds                                             week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+==========================================
+15.Перезапусти один сервис
+16.Удали только один сервис
+
+Решение
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default  Created                                                                                                                                         0.1s 
+ ✔ Container week-13-app-1  Started                                                                                                                                         1.0s 
+ ✔ Container week-13-web-1  Started                                                                                                                                         1.0s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+e89b81d1fce8   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 1 second    0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-web-1
+ce53bdb6dd12   busybox   "sleep 3600"             4 seconds ago   Up 2 seconds                                             week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13> docker restart week-13-app-1
+week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13> docker rm -f week-13-app-1  
+week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+===========================================
+17.Переименуй сервис
+
+Решение
+services:
+  rename_web:
+    image: nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+  app:
+    image: busybox
+    command: sleep 3600
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default         Created                                                                                                                                  0.0s 
+ ✔ Container week-13-app-1         Started                                                                                                                                  0.8s 
+ ✔ Container week-13-rename_web-1  Started                                                                                                                                  1.0s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+2e873ebd1eb0   nginx     "/docker-entrypoint.…"   4 seconds ago   Up 3 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+fe4d7aab869f   busybox   "sleep 3600"             5 seconds ago   Up 3 seconds                                             week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+================================================
+18.Добавь container_name
+
+Решение
+services:
+  rename_web:
+    image: nginx
+    ports:
+      - "8080:80"
+    container_name: my-nginx
+    depends_on:
+      - app
+
+  app:
+    image: busybox
+    command: sleep 3600
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default  Created                                                                                                                                         0.0s 
+ ✔ Container week-13-app-1  Started                                                                                                                                         0.8s 
+ ✔ Container my-nginx       Started                                                                                                                                         0.8s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+506848bafb3f   nginx     "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx
+3b290fbf3212   busybox   "sleep 3600"             6 seconds ago   Up 4 seconds                                             week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+======================================================
+19.Используй restart: always
+
+Решение
+services:
+  rename_web:
+    image: nginx
+    ports:
+      - "8080:80"
+    container_name: my-nginx
+    restart: always
+    depends_on:
+      - app
+
+  app:
+    image: busybox
+    command: sleep 3600
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default  Created                                                                                                                                         0.1s 
+ ✔ Container week-13-app-1  Started                                                                                                                                         0.9s 
+ ✔ Container my-nginx       Started                                                                                                                                         1.0s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+7e8fa371f4ac   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx
+cd94209dc6e4   busybox   "sleep 3600"             3 seconds ago   Up 2 seconds                                             week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+===================================================
+20.Используй restart: unless-stopped
+
+Решение
+services:
+  rename_web:
+    image: nginx
+    ports:
+      - "8080:80"
+    container_name: my-nginx
+    restart: unless-stopped
+    depends_on:
+      - app
+
+  app:
+    image: busybox
+    command: sleep 3600
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default  Created                                                                                                                                         0.1s 
+ ✔ Container week-13-app-1  Started                                                                                                                                         0.5s 
+ ✔ Container my-nginx       Started                                                                                                                                         0.6s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS        PORTS                                     NAMES
+3212964a7244   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 1 second   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx
+c7b097780749   busybox   "sleep 3600"             3 seconds ago   Up 1 second                                             week-13-app-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+=======================================================
+21.Создай volume
+22.Подключи volume к контейнеру
+
+Решение
+services:
+  rename_web:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - data:/app/data
+
+volumes:
+  data:
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default         Created                                                                                                                                  0.1s 
+ ✔ Volume week-13_data             Created                                                                                                                                  0.0s 
+ ✔ Container week-13-rename_web-1  Started                                                                                                                                  0.6s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+24569eabe743   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+================================================
+23.Создай файл внутри контейнера
+
+Решение
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+24569eabe743   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 24569eabe743 bash
+root@24569eabe743:/# ls
+app  bin  boot  dev  docker-entrypoint.d  docker-entrypoint.sh  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@24569eabe743:/# cd app/data
+root@24569eabe743:/app/data# touch myfile.txt
+root@24569eabe743:/app/data# ls
+myfile.txt
+root@24569eabe743:/app/data# 
+
+=================================================
+
+24.Убедись, что файл сохраняется
+25.Удали контейнер и проверь данные
+
+Решение
+docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+24569eabe743   nginx     "/docker-entrypoint.…"   3 minutes ago   Up 3 minutes   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+PS C:\Users\User\Desktop\devroad\week-13> docker rm -f 24569eabe743
+24569eabe743
+PS C:\Users\User\Desktop\devroad\week-13> docker compose down --remove-orphans
+[+] Running 1/1
+ ✔ Network week-13_default  Removed                                                                                                                                         0.3s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 2/2
+ ✔ Network week-13_default         Created                                                                                                                                  0.1s 
+ ✔ Container week-13-rename_web-1  Started                                                                                                                                  0.7s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+1560d40b0820   nginx     "/docker-entrypoint.…"   7 seconds ago   Up 6 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 1560d40b0820 bash
+root@1560d40b0820:/# cd app/data
+root@1560d40b0820:/app/data# ls
+myfile.txt
+root@1560d40b0820:/app/data#
+
+==============================================
+
+26.Подключи локальную папку (./data)
+27.Измени файл с хоста
+28.Проверь изменения в контейнере
+
+Решение
+services:
+  rename_web:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  data:
+
+также в папке week-13 -> я создал подпапку data и туда создал файл myfile.txt 
+внутри файла myfile.txt написал:
+Hello from my Host
+
+В терминале
+docker compose up -d                
+[+] Running 2/2
+ ✔ Network week-13_default         Created                                                                                                                                  0.1s 
+ ✔ Container week-13-rename_web-1  Started                                                                                                                                  0.5s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                     NAMES
+88069fe274be   nginx     "/docker-entrypoint.…"   11 seconds ago   Up 10 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 88069fe274be bash
+root@88069fe274be:/# ls
+app  bin  boot  dev  docker-entrypoint.d  docker-entrypoint.sh  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@88069fe274be:/# cd app/data
+root@88069fe274be:/app/data# ls
+root@88069fe274be:/app/data# touch myfile.txt
+root@88069fe274be:/app/data# cat myfile.txt
+Hello from my Hostroot@88069fe274be:/app/data# 
+root@88069fe274be:/app/data# cat myfile.txt
+Hello from my Hostroot@88069fe274be:/app/data# 
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+================================================
+29.Удали volume
+
+Решение
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 2/2
+ ✔ Network week-13_default         Created                                                                                                                                  0.1s 
+ ✔ Container week-13-rename_web-1  Started                                                                                                                                  0.4s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+7f132500af94   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 7f132500af94 bash
+root@7f132500af94:/# cd app/data
+root@7f132500af94:/app/data# ls
+myfile.txt
+root@7f132500af94:/app/data# cat myfile.txt
+Hello from my Hostroot@7f132500af94:/app/data# 
+PS C:\Users\User\Desktop\devroad\week-13> docker volume ls
+DRIVER    VOLUME NAME
+local     box1_mydata
+local     data
+local     week-13_data
+local     week-13_mydata
+PS C:\Users\User\Desktop\devroad\week-13> docker volume rm data
+data
+PS C:\Users\User\Desktop\devroad\week-13> docker volume ls     
+DRIVER    VOLUME NAME
+local     box1_mydata
+local     week-13_data
+local     week-13_mydata
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+=====================================================
+30.Создай новый volume
+
+Решение
+PS C:\Users\User\Desktop\devroad\week-13> docker volume create newdata
+newdata
+PS C:\Users\User\Desktop\devroad\week-13> docker volume ls     
+DRIVER    VOLUME NAME
+local     box1_mydata
+local     newdata
+local     week-13_data
+local     week-13_mydata
+
+======================================================
+31.Передай переменную через environment
+32.Создай .env файл
+33.Используй переменные из .env
+34.Передай пароль в MySQL
+35.Проверь переменные внутри контейнера
+36.Измени переменную и перезапусти
+37.Добавь несколько переменных
+38.Используй переменную в портах
+39.Используй переменную в volume
+40.Удали .env и проверь поведение
