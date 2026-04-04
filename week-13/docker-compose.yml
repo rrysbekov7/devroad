@@ -2,9 +2,14 @@ services:
   rename_web:
     image: nginx
     ports:
-      - "8080:80"
+      - "${MYPORT}:80"
     environment:
-      - NAME:${NAME}
-      - AGE:${AGE}
+      NAME: ${NAME}
+      AGE: ${AGE}
+    volumes:
+      - ${MYDATA}:/app/data
   
-  
+  renarmysql:
+    image: mysql
+    environment:
+      MSL_ROOT_PASSWORD: 1234
