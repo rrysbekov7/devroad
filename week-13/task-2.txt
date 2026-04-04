@@ -474,12 +474,88 @@ local     week-13_mydata
 
 ======================================================
 31.Передай переменную через environment
+
+Решение
+services:
+  rename_web:
+    image: nginx
+    ports:
+      - "8080:80"
+    environment:
+      - NAME:RENAT
+      - AGE:28
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 2/2
+ ✔ Network week-13_default         Created                                                                                                                                  0.1s 
+ ✔ Container week-13-rename_web-1  Started                                                                                                                                  0.6s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS        PORTS                                     NAMES
+be0938b2f925   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 1 second   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+=======================================================
 32.Создай .env файл
 33.Используй переменные из .env
+
+Решение
+я создал файл .env и туда написал:
+NAME=Renat
+AGE=28
+
+
+services:
+  rename_web:
+    image: nginx
+    ports:
+      - "8080:80"
+    environment:
+      - NAME:${NAME}
+      - AGE:${AGE}
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 2/2
+ ✔ Network week-13_default         Created                                                                                                                                  0.1s 
+ ✔ Container week-13-rename_web-1  Started                                                                                                                                  0.7s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+158f2d16aa79   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   week-13-rename_web-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+======================================================
 34.Передай пароль в MySQL
+
+Решение
+В терминале
+
 35.Проверь переменные внутри контейнера
+
+Решение
+В терминале
+
 36.Измени переменную и перезапусти
+
+Решение
+В терминале
+
 37.Добавь несколько переменных
+
+Решение
+В терминале
+
 38.Используй переменную в портах
+
+Решение
+В терминале
+
 39.Используй переменную в volume
+
+Решение
+В терминале
+
 40.Удали .env и проверь поведение
+
+Решение
+В терминале
