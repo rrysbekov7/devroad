@@ -6,6 +6,8 @@ services:
     environment:
       NAME: ${NAME}
       AGE: ${AGE}
+    networks:
+      - mynewnetwork
     volumes:
       - ${MYDATA}:/app/data
   
@@ -13,3 +15,17 @@ services:
     image: mysql
     environment:
       MSL_ROOT_PASSWORD: 1234
+
+  backend:
+    image: python
+    networks:
+      - mynewnetwork
+
+  myubuntu:
+    image: ubuntu
+    command: sleep 3600
+    networks:
+      - mynewnetwork
+
+networks:
+  mynewnetwork:
