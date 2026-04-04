@@ -1206,3 +1206,291 @@ PING week-13-rename_web-1 (172.20.0.4) 56(84) bytes of data.
 5 packets transmitted, 5 received, 0% packet loss, time 4000ms
 rtt min/avg/max/mdev = 0.165/0.208/0.326/0.059 ms
 root@4c346bd81175:/#
+
+===========================================================
+51.Запусти MySQL через compose
+
+Решение
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d                
+[+] Running 2/2
+ ✔ Network week-13_default       Created                                                                                                                                    0.0s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    0.6s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                 NAMES
+469d747f5805   mysql     "docker-entrypoint.s…"   9 seconds ago   Up 9 seconds   3306/tcp, 33060/tcp   week-13-renatsql-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+=====================================================
+52.Добавь volume для MySQL
+
+Решение
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - data:/app/data
+
+volumes:
+  data:
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 2/2
+ ✔ Network week-13_default       Created                                                                                                                                    0.0s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    0.3s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS         PORTS                 NAMES
+806b8360fd3f   mysql     "docker-entrypoint.s…"   10 seconds ago   Up 9 seconds   3306/tcp, 33060/tcp   week-13-renatsql-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 806b8360fd3f bash
+bash-5.1# ls
+afs  app  bin  boot  dev  docker-entrypoint-initdb.d  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+bash-5.1# cd app/data
+bash-5.1# ls
+myfile.txt
+bash-5.1# cat myfile.txt
+bash-5.1#
+PS C:\Users\User\Desktop\devroad\week-13>
+
+==========================================================
+53.Подключи backend к базе
+
+Решение
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - data:/app/data
+
+  backend:
+    image: postgres
+
+volumes:
+  data:
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_default       Created                                                                                                                                    0.0s 
+ ✔ Container week-13-backend-1   Started                                                                                                                                    0.6s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    0.5s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps                           
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                 NAMES
+d5bc1b9c8946   mysql     "docker-entrypoint.s…"   3 seconds ago   Up 3 seconds   3306/tcp, 33060/tcp   week-13-renatsql-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+=======================================================
+54.Проверь соединение
+
+Решение
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
+
+  backend:
+    image: postgres
+    networks:
+      - mynet
+  
+  myubuntu:
+    image: ubuntu
+    command: sleep 3600
+
+networks:
+  mynet:
+
+volumes:
+  data:
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 5/5
+ ✔ Network week-13_default       Created                                                                                                                                    0.1s 
+ ✔ Network week-13_mynet         Created                                                                                                                                    0.1s 
+ ✔ Container week-13-backend-1   Started                                                                                                                                    0.5s 
+ ✔ Container week-13-myubuntu-1  Started                                                                                                                                    0.5s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    0.6s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS        PORTS                 NAMES
+7546b281a2ed   mysql     "docker-entrypoint.s…"   2 seconds ago   Up 1 second   3306/tcp, 33060/tcp   week-13-renatsql-1
+8fe95abaafb6   ubuntu    "sleep 3600"             2 seconds ago   Up 1 second                         week-13-myubuntu-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 8fe95abaafb6 bash
+root@8fe95abaafb6:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@8fe95abaafb6:/# ping 8.8.8.8
+bash: ping: command not found
+root@8fe95abaafb6:/# apt update && apt install -y iputils-ping
+Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:2 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+Get:3 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1985 kB]
+Get:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:6 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1504 kB]
+Get:7 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+Get:8 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [3499 kB]
+Get:9 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+Get:10 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [34.8 kB]
+Get:11 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]                                                                                                      
+Get:12 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]                                                                                                 
+Get:13 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [3669 kB]                                                                                        
+Get:14 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [2369 kB]                                                                                              
+Get:15 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2152 kB]                                                                                          
+Get:16 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [38.1 kB]                                                                                        
+Get:17 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.5 kB]
+Get:18 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.1 kB]
+Get:19 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [695 B]
+Fetched 37.5 MB in 32s (1184 kB/s)                                                                                                                                               
+Reading package lists... Done
+Selecting previously unselected package iputils-ping.
+Preparing to unpack .../iputils-ping_3%3a20240117-1ubuntu0.1_amd64.deb ...
+Unpacking iputils-ping (3:20240117-1ubuntu0.1) ...
+Selecting previously unselected package libpam-cap:amd64.
+Preparing to unpack .../libpam-cap_1%3a2.66-5ubuntu2.2_amd64.deb ...
+Unpacking libpam-cap:amd64 (1:2.66-5ubuntu2.2) ...
+Setting up libcap2-bin (1:2.66-5ubuntu2.2) ...
+Setting up libpam-cap:amd64 (1:2.66-5ubuntu2.2) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 79.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.38.2 /usr/local/share/perl/5.38.2 /usr/lib/x86_64-linux-gnu/perl5/5.38 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.38 /usr/share/perl/5.38 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+debconf: falling back to frontend: Teletype
+Setting up iputils-ping (3:20240117-1ubuntu0.1) ...
+root@8fe95abaafb6:/# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=63 time=862 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=63 time=156 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=63 time=100 ms
+^C
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 3 received, 25% packet loss, time 2997ms
+rtt min/avg/max/mdev = 100.415/373.097/862.384/346.734 ms
+root@8fe95abaafb6:/# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=63 time=98.5 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=63 time=117 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=63 time=95.8 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=63 time=95.0 ms
+^C
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 2999ms
+rtt min/avg/max/mdev = 94.995/101.531/116.802/8.912 ms
+root@8fe95abaafb6:/# ping backend
+ping: backend: Name or service not known
+root@8fe95abaafb6:/# ping renatsql
+ping: renatsql: Name or service not known
+root@8fe95abaafb6:/# apt install -y curl
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  ca-certificates krb5-locales libbrotli1 libcurl4t64 libgssapi-krb5-2 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-common libldap2 libnghttp2-14 libpsl5t64      
+  librtmp1 libsasl2-2 libsasl2-modules libsasl2-modules-db libssh-4 openssl publicsuffix
+Suggested packages:
+  krb5-doc krb5-user libsasl2-modules-gssapi-mit | libsasl2-modules-gssapi-heimdal libsasl2-modules-ldap libsasl2-modules-otp libsasl2-modules-sql
+The following NEW packages will be installed:
+  ca-certificates curl krb5-locales libbrotli1 libcurl4t64 libgssapi-krb5-2 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-common libldap2 libnghttp2-14
+  libpsl5t64 librtmp1 libsasl2-2 libsasl2-modules libsasl2-modules-db libssh-4 openssl publicsuffix
+0 upgraded, 21 newly installed, 0 to remove and 10 not upgraded.
+Need to get 3574 kB of archives.
+After this operation, 9219 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.7 [1003 kB]
+Get:2 http://archive.ubuntu.com/ubuntu noble/main amd64 ca-certificates all 20240203 [159 kB]
+Get:3 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 krb5-locales all 1.20.1-6ubuntu2.6 [14.8 kB]
+Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libkrb5support0 amd64 1.20.1-6ubuntu2.6 [34.4 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libk5crypto3 amd64 1.20.1-6ubuntu2.6 [82.0 kB]
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.38.2 /usr/local/share/perl/5.38.2 /usr/lib/x86_64-linux-gnu/perl5/5.38 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.38 /usr/share/perl/5.38 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+debconf: falling back to frontend: Teletype
+Updating certificates in /etc/ssl/certs...
+146 added, 0 removed; done.
+Setting up libgssapi-krb5-2:amd64 (1.20.1-6ubuntu2.6) ...
+Setting up libssh-4:amd64 (0.10.6-2ubuntu0.4) ...
+Setting up libcurl4t64:amd64 (8.5.0-2ubuntu10.8) ...
+Setting up curl (8.5.0-2ubuntu10.8) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+Processing triggers for ca-certificates (20240203) ...
+Updating certificates in /etc/ssl/certs...
+0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+root@8fe95abaafb6:/#
+
+
+======================================================
+55.Добавь пользователя в MySQL
+
+Решение
+
+
+В терминале
+
+56.Создай базу данных
+
+Решение
+В терминале
+
+57.Перезапусти DB и проверь данные
+
+Решение
+В терминале
+
+58.Подключись к DB через контейнер
+
+Решение
+В терминале
+
+59.Используй mysql клиент
+
+Решение
+В терминале
+
+60.Измени порт базы
+
+Решение
+В терминале
+
+61.Добавь PostgreSQL
+
+Решение
+В терминале
+
+62.Переключись с MySQL на PostgreSQL
+
+Решение
+В терминале
+
+63.Передай ENV для Postgres
+
+Решение
+В терминале
+
+64.Создай таблицу
+
+Решение
+В терминале
+
+65.Проверь сохранение данных
+
+Решение
+В терминале

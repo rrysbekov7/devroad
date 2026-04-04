@@ -1,31 +1,25 @@
 services:
-  rename_web:
-    image: nginx
-    ports:
-      - "${MYPORT}:80"
-    environment:
-      NAME: ${NAME}
-      AGE: ${AGE}
-    networks:
-      - mynewnetwork
-    volumes:
-      - ${MYDATA}:/app/data
-  
-  renarmysql:
+  renatsql:
     image: mysql
     environment:
-      MSL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
 
   backend:
-    image: python
+    image: postgres
     networks:
-      - mynewnetwork
-
+      - mynet
+  
   myubuntu:
     image: ubuntu
     command: sleep 3600
-    networks:
-      - mynewnetwork
 
 networks:
-  mynewnetwork:
+  mynet:
+
+volumes:
+  data:
+
