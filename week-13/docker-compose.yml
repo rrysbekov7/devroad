@@ -1,21 +1,22 @@
 services:
   renatsql:
-    image: mysql
+    image: postgres
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATA: ${POSTGRES_DATA}
+    ports:
+      - "${POSTGRES_PORT}:3306"
     networks:
       - mynet
     volumes:
       - data:/app/data
-
-  backend:
-    image: postgres
-    networks:
-      - mynet
   
   myubuntu:
     image: ubuntu
     command: sleep 3600
+    networks:
+      - mynet
 
 networks:
   mynet:

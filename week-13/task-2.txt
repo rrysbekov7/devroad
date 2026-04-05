@@ -1439,58 +1439,545 @@ root@8fe95abaafb6:/#
 
 ======================================================
 55.Добавь пользователя в MySQL
-
-Решение
-
-
-В терминале
-
 56.Создай базу данных
-
-Решение
-В терминале
-
 57.Перезапусти DB и проверь данные
 
 Решение
-В терминале
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: Renat
+      MYSQL_DATABASE: mydb
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
 
+  backend:
+    image: postgres
+    networks:
+      - mynet
+  
+  myubuntu:
+    image: ubuntu
+    command: sleep 3600
+
+networks:
+  mynet:
+
+volumes:
+  data:
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d                
+[+] Running 5/5
+ ✔ Network week-13_default       Created                                                                                                                                    0.1s 
+ ✔ Network week-13_mynet         Created                                                                                                                                    0.1s 
+ ✔ Container week-13-backend-1   Started                                                                                                                                    1.1s 
+ ✔ Container week-13-myubuntu-1  Started                                                                                                                                    1.1s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    1.1s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps                           
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                 NAMES
+758782f59f16   ubuntu    "sleep 3600"             6 seconds ago   Up 4 seconds                         week-13-myubuntu-1
+8d74f80c375a   mysql     "docker-entrypoint.s…"   6 seconds ago   Up 4 seconds   3306/tcp, 33060/tcp   week-13-renatsql-1
+PS C:\Users\User\Desktop\devroad\week-13> docker restart renatsql
+Error response from daemon: No such container: renatsql
+PS C:\Users\User\Desktop\devroad\week-13> docker restart week-13-renatsql-1
+week-13-renatsql-1
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                 NAMES
+758782f59f16   ubuntu    "sleep 3600"             5 minutes ago   Up 4 minutes                         week-13-myubuntu-1
+8d74f80c375a   mysql     "docker-entrypoint.s…"   5 minutes ago   Up 3 seconds   3306/tcp, 33060/tcp   week-13-renatsql-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+==========================================================
 58.Подключись к DB через контейнер
-
-Решение
-В терминале
-
 59.Используй mysql клиент
 
 Решение
-В терминале
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: Renat
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: mydb
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
 
+  backend:
+    image: postgres
+    networks:
+      - mynet
+  
+  myubuntu:
+    image: ubuntu
+    command: sleep 3600
+    networks:
+      - mynet
+
+networks:
+  mynet:
+
+volumes:
+  data:
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d                
+[+] Running 4/4
+ ✔ Network week-13_mynet         Created                                                                                                                                    0.1s 
+ ✔ Container week-13-myubuntu-1  Started                                                                                                                                    0.8s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    0.8s 
+ ✔ Container week-13-backend-1   Started                                                                                                                                    0.8s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps                           
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                 NAMES
+c54510dc8152   mysql     "docker-entrypoint.s…"   3 seconds ago   Up 2 seconds   3306/tcp, 33060/tcp   week-13-renatsql-1
+08d60c930b06   ubuntu    "sleep 3600"             3 seconds ago   Up 2 seconds                         week-13-myubuntu-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 08d60c930b06 bash
+root@08d60c930b06:/# apt update && apt install -y iputils-ping
+Get:1 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:4 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1504 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:6 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+Get:7 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+Get:9 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1985 kB]                                                                                             
+Get:10 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [34.8 kB]                                                                                      
+Get:11 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [3499 kB]                                                                                      
+Get:12 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]                                                                                                 
+Get:13 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [2369 kB]                                                                                              
+Get:14 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2152 kB]                                                                                          
+Get:15 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [3669 kB]                                                                                        
+Get:16 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [38.1 kB]                                                                                        
+Get:17 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.5 kB]                                                                                            
+Get:18 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.1 kB]
+Get:19 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [695 B]
+Fetched 37.5 MB in 25s (1515 kB/s)                                                                                                                                               
+Reading package lists... Done
+Selecting previously unselected package iputils-ping.
+Preparing to unpack .../iputils-ping_3%3a20240117-1ubuntu0.1_amd64.deb ...
+Unpacking iputils-ping (3:20240117-1ubuntu0.1) ...
+Selecting previously unselected package libpam-cap:amd64.
+Preparing to unpack .../libpam-cap_1%3a2.66-5ubuntu2.2_amd64.deb ...
+Unpacking libpam-cap:amd64 (1:2.66-5ubuntu2.2) ...
+Setting up libcap2-bin (1:2.66-5ubuntu2.2) ...
+Setting up libpam-cap:amd64 (1:2.66-5ubuntu2.2) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 79.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.38.2 /usr/local/share/perl/5.38.2 /usr/lib/x86_64-linux-gnu/perl5/5.38 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.38 /usr/share/perl/5.38 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+debconf: falling back to frontend: Teletype
+Setting up iputils-ping (3:20240117-1ubuntu0.1) ...
+root@08d60c930b06:/# apt update && apt install -y mysql-client
+Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu noble InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+10 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Selecting previously unselected package mysql-common.
+Preparing to unpack .../3-mysql-common_5.8+1.1.0build1_all.deb ...
+Unpacking mysql-common (5.8+1.1.0build1) ...
+Selecting previously unselected package mysql-client-8.0.
+Preparing to unpack .../4-mysql-client-8.0_8.0.45-0ubuntu0.24.04.1_amd64.deb ...
+Unpacking mysql-client-8.0 (8.0.45-0ubuntu0.24.04.1) ...
+Selecting previously unselected package mysql-client.
+Preparing to unpack .../5-mysql-client_8.0.45-0ubuntu0.24.04.1_all.deb ...
+Unpacking mysql-client (8.0.45-0ubuntu0.24.04.1) ...
+Setting up mysql-common (5.8+1.1.0build1) ...
+update-alternatives: using /etc/mysql/my.cnf.fallback to provide /etc/mysql/my.cnf (my.cnf) in auto mode
+Setting up libbsd0:amd64 (0.12.1-1build1.1) ...
+Setting up libedit2:amd64 (3.1-20230828-1build1) ...
+Setting up mysql-client-core-8.0 (8.0.45-0ubuntu0.24.04.1) ...
+Setting up mysql-client-8.0 (8.0.45-0ubuntu0.24.04.1) ...
+Setting up mysql-client (8.0.45-0ubuntu0.24.04.1) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+root@08d60c930b06:/# mysql -h renatsql -u Renat -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 9.6.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+
+==========================================================
 60.Измени порт базы
-
 Решение
-В терминале
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: Renat
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3307:3306"
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
 
+  backend:
+    image: postgres
+    networks:
+      - mynet
+  
+  myubuntu:
+    image: ubuntu
+    command: sleep 3600
+    networks:
+      - mynet
+
+networks:
+  mynet:
+
+volumes:
+  data:
+
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                         NAMES
+7545eb7ad9dd   ubuntu    "sleep 3600"             10 minutes ago   Up 10 minutes                                                 week-13-myubuntu-1
+3831fd5013e5   mysql     "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   0.0.0.0:3307->3306/tcp, [::]:3307->3306/tcp   week-13-renatsql-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 7545eb7ad9dd bash
+root@7545eb7ad9dd:/# apt update && apt install -y mysql-client
+Get:1 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:4 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [3499 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:6 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+Get:7 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1985 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]
+Get:9 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+Get:10 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1504 kB] 
+Get:11 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]            
+Get:12 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [34.8 kB]
+Get:13 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [2369 kB]
+Get:14 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [38.1 kB]
+Get:15 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2152 kB]
+Get:16 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [3669 kB]                                                                                        
+Get:17 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [695 B]                                                                                        
+Get:18 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.1 kB]
+Get:19 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.5 kB]
+Fetched 37.5 MB in 12s (3218 kB/s)                                                                                                                                               
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+10 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Selecting previously unselected package mysql-common.
+Preparing to unpack .../3-mysql-common_5.8+1.1.0build1_all.deb ...
+Unpacking mysql-common (5.8+1.1.0build1) ...
+Selecting previously unselected package mysql-client-8.0.
+Preparing to unpack .../4-mysql-client-8.0_8.0.45-0ubuntu0.24.04.1_amd64.deb ...
+Unpacking mysql-client-8.0 (8.0.45-0ubuntu0.24.04.1) ...
+Selecting previously unselected package mysql-client.
+Preparing to unpack .../5-mysql-client_8.0.45-0ubuntu0.24.04.1_all.deb ...
+Unpacking mysql-client (8.0.45-0ubuntu0.24.04.1) ...
+Setting up mysql-common (5.8+1.1.0build1) ...
+update-alternatives: using /etc/mysql/my.cnf.fallback to provide /etc/mysql/my.cnf (my.cnf) in auto mode
+Setting up libbsd0:amd64 (0.12.1-1build1.1) ...
+Setting up libedit2:amd64 (3.1-20230828-1build1) ...
+Setting up mysql-client-core-8.0 (8.0.45-0ubuntu0.24.04.1) ...
+Setting up mysql-client-8.0 (8.0.45-0ubuntu0.24.04.1) ...
+Setting up mysql-client (8.0.45-0ubuntu0.24.04.1) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+root@7545eb7ad9dd:/# mysql -h 127.0.0.1 -P 3307 -u Renat -p
+Enter password: 
+ERROR 2003 (HY000): Can't connect to MySQL server on '127.0.0.1:3307' (111)
+root@7545eb7ad9dd:/# mysql -h 127.0.0.1 -P 3306 -u Renat -p
+Enter password:
+ERROR 2003 (HY000): Can't connect to MySQL server on '127.0.0.1:3306' (111)
+root@7545eb7ad9dd:/# mysql -h renatsql -P 3306 -u Renat -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 41
+Server version: 9.6.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+
+=================================================
 61.Добавь PostgreSQL
 
 Решение
-В терминале
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: Renat
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3307:3306"
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
 
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: Artur
+    ports:
+      - "8081:8080"
+    networks:
+      - mynet
+
+  backend:
+    image: postgres
+    networks:
+      - mynet
+  
+  myubuntu:
+    image: ubuntu
+    command: sleep 3600
+    networks:
+      - mynet
+
+networks:
+  mynet:
+
+volumes:
+  data:
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 5/5
+ ✔ Network week-13_mynet         Created                                                                                                                                    0.0s 
+ ✔ Container week-13-myubuntu-1  Started                                                                                                                                    0.9s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    1.0s 
+ ✔ Container week-13-backend-1   Started                                                                                                                                    1.0s 
+ ✔ Container week-13-db-1        Started                                                                                                                                    1.0s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                                         NAMES
+dfaea118d1cf   postgres   "docker-entrypoint.s…"   7 seconds ago   Up 6 seconds   0.0.0.0:8081->8080/tcp, [::]:8081->8080/tcp   week-13-db-1
+9f113e06d733   mysql      "docker-entrypoint.s…"   7 seconds ago   Up 6 seconds   0.0.0.0:3307->3306/tcp, [::]:3307->3306/tcp   week-13-renatsql-1
+b806dd524715   ubuntu     "sleep 3600"             7 seconds ago   Up 6 seconds                                                 week-13-myubuntu-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
+====================================================
 62.Переключись с MySQL на PostgreSQL
-
-Решение
-В терминале
-
 63.Передай ENV для Postgres
 
 Решение
+в .env написал:
+POSTGRES_USER=Renat
+POSTGRES_PASSWORD=12345
+POSTGRES_PORT=5432
+
+Было:
+services:
+  renatsql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: Renat
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3307:3306"
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
+
+Стало:
+services:
+  renatsql:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:3306"
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
+
 В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_mynet         Created                                                                                                                                    0.0s 
+ ✔ Container week-13-myubuntu-1  Started                                                                                                                                    0.8s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    0.9s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps
+CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                                         NAMES
+6d55ebb4cf47   postgres   "docker-entrypoint.s…"   5 seconds ago   Up 4 seconds   0.0.0.0:5432->3306/tcp, [::]:5432->3306/tcp   week-13-renatsql-1
+074857b6641b   ubuntu     "sleep 3600"             5 seconds ago   Up 4 seconds                                                 week-13-myubuntu-1
+PS C:\Users\User\Desktop\devroad\week-13> 
+
 
 64.Создай таблицу
 
-Решение
-В терминале
 
+Решение
+в .env:
+POSTGRES_USER=Renat
+POSTGRES_PASSWORD=12345
+POSTGRES_PORT=5432
+POSTGRES_DATA=mydata
+
+services:
+  renatsql:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATA: ${POSTGRES_DATA}
+    ports:
+      - "${POSTGRES_PORT}:3306"
+    networks:
+      - mynet
+    volumes:
+      - data:/app/data
+  
+  myubuntu:
+    image: ubuntu
+    command: sleep 3600
+    networks:
+      - mynet
+
+networks:
+  mynet:
+
+volumes:
+  data:
+
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad\week-13> docker compose up -d
+[+] Running 3/3
+ ✔ Network week-13_mynet         Created                                                                                                                                    0.0s 
+ ✔ Container week-13-myubuntu-1  Started                                                                                                                                    0.8s 
+ ✔ Container week-13-renatsql-1  Started                                                                                                                                    0.9s 
+PS C:\Users\User\Desktop\devroad\week-13> docker ps                           
+CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                                         NAMES
+e9c561a0a617   postgres   "docker-entrypoint.s…"   6 seconds ago   Up 4 seconds   0.0.0.0:5432->3306/tcp, [::]:5432->3306/tcp   week-13-renatsql-1
+0d8c2e969151   ubuntu     "sleep 3600"             6 seconds ago   Up 4 seconds                                                 week-13-myubuntu-1
+PS C:\Users\User\Desktop\devroad\week-13> docker exec -it 0d8c2e969151 bash
+root@0d8c2e969151:/# apt update && apt install -y postgres-client
+Get:1 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:4 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [34.8 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:6 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+Get:7 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [3499 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+Get:9 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1985 kB]
+Get:10 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1504 kB]
+Get:11 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]                                                                                                      
+Get:12 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]                                                                                                 
+Get:13 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [38.1 kB]
+Get:14 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [3669 kB]
+Get:15 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2152 kB]                                                                                          
+Get:16 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [2369 kB]                                                                                              
+Get:17 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.5 kB]                                                                                            
+Get:18 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.1 kB]
+Get:19 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [695 B]
+Fetched 37.5 MB in 9s (4044 kB/s)                                                                                                                                                
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+10 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package postgres-client
+root@0d8c2e969151:/# apt update && apt install -y postgresql-client
+Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu noble InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+10 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  krb5-locales libgdbm-compat4t64 libgdbm6t64 libgssapi-krb5-2 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-common libldap2 libperl5.38t64 libpq5
+  libreadline8t64 libsasl2-2 libsasl2-modules libsasl2-modules-db netbase perl perl-modules-5.38 postgresql-client-16 postgresql-client-common readline-common
+Suggested packages:
+  gdbm-l10n krb5-doc krb5-user libsasl2-modules-gssapi-mit | libsasl2-modules-gssapi-heimdal libsasl2-modules-ldap libsasl2-modules-otp libsasl2-modules-sql perl-doc
+  libterm-readline-gnu-perl | libterm-readline-perl-perl make libtap-harness-archive-perl postgresql-16 postgresql-doc-16 readline-doc
+The following NEW packages will be installed:
+  krb5-locales libgdbm-compat4t64 libgdbm6t64 libgssapi-krb5-2 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-common libldap2 libperl5.38t64 libpq5
+  libreadline8t64 libsasl2-2 libsasl2-modules libsasl2-modules-db netbase perl perl-modules-5.38 postgresql-client postgresql-client-16 postgresql-client-common
+  readline-common
+0 upgraded, 23 newly installed, 0 to remove and 10 not upgraded.
+Need to get 11.0 MB of archives.
+After this operation, 59.2 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 perl-modules-5.38 all 5.38.2-3.2ubuntu0.2 [3110 kB]
+Get:2 http://archive.ubuntu.com/ubuntu noble/main amd64 libgdbm6t64 amd64 1.23-5.1build1 [34.4 kB]
+Get:3 http://archive.ubuntu.com/ubuntu noble/main amd64 libgdbm-compat4t64 amd64 1.23-5.1build1 [6710 B]
+Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libperl5.38t64 amd64 5.38.2-3.2ubuntu0.2 [4874 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 perl amd64 5.38.2-3.2ubuntu0.2 [231 kB]
+Get:6 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 krb5-locales all 1.20.1-6ubuntu2.6 [14.8 kB]
+Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libkrb5support0 amd64 1.20.1-6ubuntu2.6 [34.4 kB]
+Setting up perl-modules-5.38 (5.38.2-3.2ubuntu0.2) ...
+Setting up libk5crypto3:amd64 (1.20.1-6ubuntu2.6) ...
+Setting up libsasl2-2:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+Setting up netbase (6.4) ...
+Setting up libkrb5-3:amd64 (1.20.1-6ubuntu2.6) ...
+Setting up libperl5.38t64:amd64 (5.38.2-3.2ubuntu0.2) ...
+Setting up readline-common (8.2-4build1) ...
+Setting up libldap2:amd64 (2.6.10+dfsg-0ubuntu0.24.04.1) ...
+Setting up perl (5.38.2-3.2ubuntu0.2) ...
+Setting up libgssapi-krb5-2:amd64 (1.20.1-6ubuntu2.6) ...
+Setting up libreadline8t64:amd64 (8.2-4build1) ...
+Setting up postgresql-client-common (257build1.1) ...
+Setting up libpq5:amd64 (16.13-0ubuntu0.24.04.1) ...
+Setting up postgresql-client-16 (16.13-0ubuntu0.24.04.1) ...
+update-alternatives: using /usr/share/postgresql/16/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode
+Setting up postgresql-client (16+257build1.1) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+root@0d8c2e969151:/# postgresql -h renatsql -u Artur -p
+bash: postgresql: command not found
+root@0d8c2e969151:/# psql -h postgres -U renatsql -d mydata
+psql: error: could not translate host name "postgres" to address: Name or service not known
+
+=========================================================
 65.Проверь сохранение данных
 
 Решение
+Я не знаю 
+
 В терминале
