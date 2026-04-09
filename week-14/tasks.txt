@@ -234,29 +234,53 @@ PS C:\Users\User\Desktop\devroad> git push
 
 ===================================================
 21.Создай 2 job (build и test)
-
-Решение
-В терминале
-===================================================
 22.Сделай чтобы test зависел от build
-
-Решение
-В терминале
-===================================================
 23.Добавь разные echo в каждом job
-
-Решение
-В терминале
-===================================================
 24.Добавь несколько steps в job
 
 Решение
+name: Two Jobs
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Run date command
+        run: date
+
+      - name: Print Build name
+        run: echo I am a Build 
+
+      - name: Print Build name PART 2
+        run: echo I am a Build too
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print test is Succeed!
+        run: echo Test is Succeed!
+
+      - name: Print some text
+        run: echo That is Amazing!
+
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#19"
+PS C:\Users\User\Desktop\devroad> git push   
 ===================================================
 25.Попробуй запустить job параллельно
 
 Решение
+
 В терминале
+
 ===================================================
 26.Измени runner на windows-latest
 
