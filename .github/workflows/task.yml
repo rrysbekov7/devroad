@@ -28,5 +28,5 @@ jobs:
       - name: Print test is Succeed!
         run: echo Test is Succeed!
 
-      - name: Print some text
+      #УБРАЛ name у этого шага и пробую запустить
         run: echo That is Amazing!

@@ -276,26 +276,48 @@ PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#19"
 PS C:\Users\User\Desktop\devroad> git push   
 ===================================================
 25.Попробуй запустить job параллельно
-
-Решение
-
-В терминале
-
-===================================================
 26.Измени runner на windows-latest
-
-Решение
-В терминале
-===================================================
 27.Добавь name для каждого step
-
-Решение
-В терминале
-===================================================
 28.Сделай job с 5 шагами
 
 Решение
+name: Two Jobs
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Run date command
+        run: date
+
+      - name: Print Build name
+        run: echo I am a Build 
+
+      - name: Print Build name PART 2
+        run: echo I am a Build too
+
+      - name: Print steps number 5
+        run: echo My step-5
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print test is Succeed!
+        run: echo Test is Succeed!
+
+      - name: Print some text
+        run: echo That is Amazing!
+
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#21"
+PS C:\Users\User\Desktop\devroad> git push
 ===================================================
 29.Попробуй убрать name у step
 
