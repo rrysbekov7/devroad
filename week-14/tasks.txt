@@ -143,14 +143,44 @@ PS C:\Users\User\Desktop\devroad> git push
 В терминале
 ===================================================
 18.Запусти workflow на pull_request
-
-Решение
-В терминале
-===================================================
 19.Используй ubuntu-latest
 
 Решение
+name: my second workflow-rename
+
+on: pull_request
+
+jobs:
+  test-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print Hello World! - rename
+        run: echo Hello Renat!
+
+      - name: Print I am DevOps BOY!
+        run: echo I am DevOps BOY!
+
+      - name: Print I am DevOps BOY! - PART2
+        run: echo I am DevOps BOY! - PART2
+
+      - name: Print I am DevOps BOY! - PART3
+        run: echo I am DevOps BOY! - PART3
+
+      - name: Print I am DevOps BOY! - PART4
+        run: echo I am DevOps BOY! - PART4
+
 В терминале
+PS C:\Users\User\Desktop\devroad> git checkout -b dev
+Switched to a new branch 'dev'
+PS C:\Users\User\Desktop\devroad> git branch         
+* dev
+  master
+PS C:\Users\User\Desktop\devroad> git add .
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#10"
+PS C:\Users\User\Desktop\devroad> git push origin dev
 ===================================================
 20.Добавь step с date
 
