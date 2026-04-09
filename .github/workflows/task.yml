@@ -1,25 +1,14 @@
-name: Hello World
+name: my second workflow
 
-on: 
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
-  hello-world-build-rename:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Download code
+      - name: Install checkout
         uses: actions/checkout@v4
-
+        
       - name: Print Hello World!
-        run: echo "Hello World!"
+        run: echo Hello World!
 
-      - name: Print Hello Renat!
-        run: echo "Hello Renat!"
-
-      - name: Print I am the King
-        run: echo "I am the King"
-
-      - name: Print pwd
-        run: pwd
