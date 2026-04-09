@@ -1,9 +1,9 @@
-name: my second workflow
+name: my second workflow-rename
 
 on: push
 
 jobs:
-  test:
+  test-rename:
     runs-on: ubuntu-latest
     steps:
       - name: Install checkout
@@ -14,3 +14,12 @@ jobs:
 
       - name: Print I am DevOps BOY!
         run: echo I am DevOps BOY!
+
+      - name: Print I am DevOps BOY! - PART2
+        run: echo I am DevOps BOY! - PART2
+
+      - name: Print I am DevOps BOY! - PART3
+        run: echo I am DevOps BOY! - PART3
+
+      - name: Print I am DevOps BOY! - PART4
+        run: echo I am DevOps BOY! - PART4
