@@ -198,5 +198,35 @@ PS C:\Users\User\Desktop\devroad> git push origin dev
 20.Добавь step с date
 
 Решение
+name: my second workflow-rename
+
+on: push
+
+jobs:
+  test-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print Hello World! - rename
+        run: echo Hello Renat!
+
+      - name: Print I am DevOps BOY!
+        run: echo I am DevOps BOY!
+
+      - name: Print I am DevOps BOY! - PART2
+        run: echo I am DevOps BOY! - PART2
+
+      - name: Print I am DevOps BOY! - PART3
+        run: echo I am DevOps BOY! - PART3
+
+      - name: Print I am DevOps BOY! - PART4
+        run: echo I am DevOps BOY! - PART4
+
+      - name: Run date command
+        run: date
+
 В терминале
+
 ===================================================
