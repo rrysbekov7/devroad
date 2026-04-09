@@ -12,3 +12,9 @@ jobs:
       - name: Print Hello World!
         run: echo "Hello World!"
 
+      - name: Print Hello Renat!
+        run: echo "Hello Renat!"
+
+      - name: Print I am the King
+        run: echo "I am the King"
+

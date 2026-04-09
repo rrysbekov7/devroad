@@ -1,36 +1,35 @@
 1.Создай репозиторий и добавь первый workflow (Hello World)
-
-Решение:
-В терминале:
-
-====================================================
 2.Сделай workflow, который запускается на push
-
-Решение:
-В терминале:
-
-====================================================
 3.Добавь шаг с echo "Hello DevOps"
-
-Решение:
-В терминале:
-
-====================================================
 4.Используй actions/checkout
-
-Решение:
-В терминале:
-
-====================================================
 5.Запусти workflow на Ubuntu
 
 Решение:
+name: Hello World
+
+on: push
+
+jobs:
+  hello-world-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download code
+        uses: actions/checkout@v4
+
+      - name: Print Hello World!
+        run: echo "Hello World!"
+
+
 В терминале:
+PS C:\Users\User\Desktop\devroad> git add .                         
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#2"
+PS C:\Users\User\Desktop\devroad> git push
 
 ====================================================
 6.Добавь второй step (несколько echo)
 
 Решение:
+
 В терминале:
 
 ====================================================
