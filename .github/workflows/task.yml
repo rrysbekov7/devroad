@@ -1,9 +1,9 @@
 name: Hello World
 
-on: push
+on: workflow_dispatch
 
 jobs:
-  hello-world-build:
+  hello-world-build-rename:
     runs-on: ubuntu-latest
     steps:
       - name: Download code
