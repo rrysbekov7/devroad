@@ -12,3 +12,5 @@ jobs:
       - name: Print Hello World! - rename
         run: echo Hello Renat!
 
+      - name: Print I am DevOps BOY!
+        run: echo I am DevOps BOY!
