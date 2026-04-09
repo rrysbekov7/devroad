@@ -28,16 +28,34 @@ PS C:\Users\User\Desktop\devroad> git push
 ====================================================
 6.Добавь второй step (несколько echo)
 7.Переименуй job (например my-first-job)
-
-Решение:
-В терминале:
-
-====================================================
 8.Запусти workflow вручную (workflow_dispatch)
 
 Решение:
-В терминале:
+name: Hello World
 
+on: workflow_dispatch
+
+jobs:
+  hello-world-build-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download code
+        uses: actions/checkout@v4
+
+      - name: Print Hello World!
+        run: echo "Hello World!"
+
+      - name: Print Hello Renat!
+        run: echo "Hello Renat!"
+
+      - name: Print I am the King
+        run: echo "I am the King"
+
+
+В терминале:
+PS C:\Users\User\Desktop\devroad> git add .                         
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#4"
+PS C:\Users\User\Desktop\devroad> git push
 ====================================================
 9.Сделай workflow, который запускается только на ветке main
 
