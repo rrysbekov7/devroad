@@ -118,33 +118,47 @@ PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#6"
 PS C:\Users\User\Desktop\devroad> git push
 ===================================================
 13.Поменяй текст на своё имя
-
-Решение
-В терминале
-===================================================
 14.Добавь второй шаг с echo
-
-Решение
-В терминале
-===================================================
 15.Сделай 3 шага подряд
-
-Решение
-В терминале
-===================================================
 16.Переименуй job
-
-Решение
-В терминале
-===================================================
 17.Измени имя workflow
 
 Решение
+name: my second workflow-rename
+
+on: push
+
+jobs:
+  test-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print Hello World! - rename
+        run: echo Hello Renat!
+
+      - name: Print I am DevOps BOY!
+        run: echo I am DevOps BOY!
+
+      - name: Print I am DevOps BOY! - PART2
+        run: echo I am DevOps BOY! - PART2
+
+      - name: Print I am DevOps BOY! - PART3
+        run: echo I am DevOps BOY! - PART3
+
+      - name: Print I am DevOps BOY! - PART4
+        run: echo I am DevOps BOY! - PART4
+
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#9"
+PS C:\Users\User\Desktop\devroad> git push
 ===================================================
 18.Запусти workflow на pull_request
 
 Решение
+
 В терминале
 ===================================================
 19.Используй ubuntu-latest
