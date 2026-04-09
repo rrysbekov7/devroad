@@ -27,4 +27,4 @@ jobs:
         run: echo Test is Succeed!
 
       - name: Print some text
-        run: echo That's Amazing!
+        run: echo That is Amazing!
