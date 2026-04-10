@@ -320,11 +320,95 @@ PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#21"
 PS C:\Users\User\Desktop\devroad> git push
 ===================================================
 29.Попробуй убрать name у step
+30.Добавь комментарии в YAML
+
+Решение
+name: Two Jobs
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Run date command
+        run: date
+
+      - name: Print Build name
+        run: echo I am a Build 
+
+      - name: Print Build name PART 2
+        run: echo I am a Build too
+
+      - name: Print steps number 5
+        run: echo My step-5
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print test is Succeed!
+        run: echo Test is Succeed!
+
+      #УБРАЛ name у этого шага и пробую запустить - тест не прошел
+      #Invalid workflow file
+      #(Line: 32, Col: 9): 'run' is already defined
+        #run: echo That is Amazing! - Просто закомментировал чтобы не ругался на ошибку
+
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#22"
+PS C:\Users\User\Desktop\devroad> git push   
+===================================================
+31.Используй actions/checkout@v3
 
 Решение
 В терминале
 ===================================================
-30.Добавь комментарии в YAML
+32.Добавь step с ls (посмотреть файлы)
+
+Решение
+В терминале
+===================================================
+33.Добавь step с pwd
+
+Решение
+В терминале
+===================================================
+34.Создай файл через echo > file.txt
+
+Решение
+В терминале
+===================================================
+35.Выведи содержимое файла
+
+Решение
+В терминале
+===================================================
+36.Добавь переменную окружения
+
+Решение
+В терминале
+===================================================
+37.Используй эту переменную в echo
+
+Решение
+В терминале
+===================================================
+38.Сделай workflow с trigger только для main ветки
+
+Решение
+В терминале
+===================================================
+39.Добавь несколько events (push + pull_request)
+
+Решение
+В терминале
+===================================================
+40.Попробуй сломать workflow и исправить
 
 Решение
 В терминале

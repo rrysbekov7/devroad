@@ -1,32 +1,19 @@
-name: Two Jobs
+name: My code#2
 on: push
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Install checkout
-        uses: actions/checkout@v4
-
-      - name: Run date command
-        run: date
-
-      - name: Print Build name
-        run: echo I am a Build 
-
-      - name: Print Build name PART 2
-        run: echo I am a Build too
-
-      - name: Print steps number 5
-        run: echo My step-5
-  test:
-    runs-on: windows-latest
-    steps:
-      - name: Install checkout
-        uses: actions/checkout@v4
-
-      - name: Print test is Succeed!
-        run: echo Test is Succeed!
-
-      #УБРАЛ name у этого шага и пробую запустить
-        run: echo That is Amazing!
+        uses: actions/checkout@v3
+      - name: Print ls command
+        run: ls 
+      - name: Print pwd command 
+        run: pwd
+      - name: Create file
+        run: echo "hello from github actions" > file.txt
+      - name: Looking the file content
+        run: cat file.txt 
+        
+      
