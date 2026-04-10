@@ -1,9 +1,16 @@
 name: My code#2
-on: push
+on:
+  push:
+    branches:
+      - master
 
+env:
+  GLOBAL_VAR: "Hello from global env"
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      JOB_VAR: "Hello from Job"
     steps:
       - name: Install checkout
         uses: actions/checkout@v3
@@ -15,5 +22,9 @@ jobs:
         run: echo "hello from github actions" > file.txt
       - name: Looking the file content
         run: cat file.txt 
-        
+      - name: Print Global Env 
+        run: echo $GLOBAL_VAR
+      - name: Print Job ENV 
+        run: echo $JOB_VAR
+
       

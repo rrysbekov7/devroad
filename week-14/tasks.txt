@@ -364,33 +364,40 @@ PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#22"
 PS C:\Users\User\Desktop\devroad> git push   
 ===================================================
 31.Используй actions/checkout@v3
-
-Решение
-В терминале
-===================================================
 32.Добавь step с ls (посмотреть файлы)
-
-Решение
-В терминале
-===================================================
 33.Добавь step с pwd
-
-Решение
-В терминале
-===================================================
 34.Создай файл через echo > file.txt
-
-Решение
-В терминале
-===================================================
 35.Выведи содержимое файла
 
 Решение
+name: My code#2
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v3
+      - name: Print ls command
+        run: ls 
+      - name: Print pwd command 
+        run: pwd
+      - name: Create file
+        run: echo "hello from github actions" > file.txt
+      - name: Looking the file content
+        run: cat file.txt 
+        
+      
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .
+PS C:\Users\User\Desktop\devroad> git commit -m "10_04_2026 commit#2"
+PS C:\Users\User\Desktop\devroad> git push
 ===================================================
 36.Добавь переменную окружения
 
 Решение
+
 В терминале
 ===================================================
 37.Используй эту переменную в echo
