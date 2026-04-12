@@ -27,4 +27,4 @@ jobs:
       - name: Print Hello Meen
         run: echo "Hello Meen"
       - name: Print I am DevOps Engineer
-        run: "I am a DevOps engineer"
+        run: echo "I am a DevOps engineer"
