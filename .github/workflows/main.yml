@@ -1,9 +1,9 @@
-name: My second job
+name: My UI job
 
 on:
   push:
-  branches:
-  - master
+    branches:
+      - master
     
 # This is my Jobs:
 jobs:
@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
       - name: Print Hello World!
         run: echo "Hello World!"
