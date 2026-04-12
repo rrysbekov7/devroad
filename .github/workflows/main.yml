@@ -13,4 +13,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Hello World!
+        run: echo "Hello World!"
