@@ -198,5 +198,551 @@ PS C:\Users\User\Desktop\devroad> git push origin dev
 20.Добавь step с date
 
 Решение
+name: my second workflow-rename
+
+on: push
+
+jobs:
+  test-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print Hello World! - rename
+        run: echo Hello Renat!
+
+      - name: Print I am DevOps BOY!
+        run: echo I am DevOps BOY!
+
+      - name: Print I am DevOps BOY! - PART2
+        run: echo I am DevOps BOY! - PART2
+
+      - name: Print I am DevOps BOY! - PART3
+        run: echo I am DevOps BOY! - PART3
+
+      - name: Print I am DevOps BOY! - PART4
+        run: echo I am DevOps BOY! - PART4
+
+      - name: Run date command
+        run: date
+
 В терминале
+PS C:\Users\User\Desktop\devroad> git add . 
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#16"
+PS C:\Users\User\Desktop\devroad> git push
+
 ===================================================
+21.Создай 2 job (build и test)
+22.Сделай чтобы test зависел от build
+23.Добавь разные echo в каждом job
+24.Добавь несколько steps в job
+
+Решение
+name: Two Jobs
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Run date command
+        run: date
+
+      - name: Print Build name
+        run: echo I am a Build 
+
+      - name: Print Build name PART 2
+        run: echo I am a Build too
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print test is Succeed!
+        run: echo Test is Succeed!
+
+      - name: Print some text
+        run: echo That is Amazing!
+
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#19"
+PS C:\Users\User\Desktop\devroad> git push   
+===================================================
+25.Попробуй запустить job параллельно
+26.Измени runner на windows-latest
+27.Добавь name для каждого step
+28.Сделай job с 5 шагами
+
+Решение
+name: Two Jobs
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Run date command
+        run: date
+
+      - name: Print Build name
+        run: echo I am a Build 
+
+      - name: Print Build name PART 2
+        run: echo I am a Build too
+
+      - name: Print steps number 5
+        run: echo My step-5
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print test is Succeed!
+        run: echo Test is Succeed!
+
+      - name: Print some text
+        run: echo That is Amazing!
+
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#21"
+PS C:\Users\User\Desktop\devroad> git push
+===================================================
+29.Попробуй убрать name у step
+30.Добавь комментарии в YAML
+
+Решение
+name: Two Jobs
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Run date command
+        run: date
+
+      - name: Print Build name
+        run: echo I am a Build 
+
+      - name: Print Build name PART 2
+        run: echo I am a Build too
+
+      - name: Print steps number 5
+        run: echo My step-5
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v4
+
+      - name: Print test is Succeed!
+        run: echo Test is Succeed!
+
+      #УБРАЛ name у этого шага и пробую запустить - тест не прошел
+      #Invalid workflow file
+      #(Line: 32, Col: 9): 'run' is already defined
+        #run: echo That is Amazing! - Просто закомментировал чтобы не ругался на ошибку
+
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "9_04_2026 commit#22"
+PS C:\Users\User\Desktop\devroad> git push   
+===================================================
+31.Используй actions/checkout@v3
+32.Добавь step с ls (посмотреть файлы)
+33.Добавь step с pwd
+34.Создай файл через echo > file.txt
+35.Выведи содержимое файла
+
+Решение
+name: My code#2
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v3
+      - name: Print ls command
+        run: ls 
+      - name: Print pwd command 
+        run: pwd
+      - name: Create file
+        run: echo "hello from github actions" > file.txt
+      - name: Looking the file content
+        run: cat file.txt 
+        
+      
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .
+PS C:\Users\User\Desktop\devroad> git commit -m "10_04_2026 commit#2"
+PS C:\Users\User\Desktop\devroad> git push
+===================================================
+36.Добавь переменную окружения
+37.Используй эту переменную в echo
+38.Сделай workflow с trigger только для main ветки
+39.Добавь несколько events (push + pull_request)
+
+Решение
+name: My code#2
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  GLOBAL_VAR: "Hello from global env"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR: "Hello from Job"
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v3
+      - name: Print ls command
+        run: ls 
+      - name: Print pwd command 
+        run: pwd
+      - name: Create file
+        run: echo "hello from github actions" > file.txt
+      - name: Looking the file content
+        run: cat file.txt 
+      - name: Print Global Env 
+        run: echo $GLOBAL_VAR
+      - name: Print Job ENV 
+        run: echo $JOB_VAR
+
+      
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "10_04_2026 commit#4"
+PS C:\Users\User\Desktop\devroad> git push  
+===================================================
+40.Попробуй сломать workflow и исправить
+
+Решение
+name: My code#2
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  GLOBAL_VAR: "Hello from global env"
+jobs:
+  test:
+    runs-on: ubuntu:latest
+    env:
+      JOB_VAR: "Hello from Job"
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v99
+      - name: Print ls command
+        run: ls 
+      - name: Print pwd command 
+        run: pwd
+      - name: Create file
+        run: echo "hello from github actions" > file.txt
+      - name: Looking the file content
+        run: cat file.txt 
+      - name: Print Global Env 
+        run: echo $GLOBAL_VAR_WRONG
+      - name: Print Job ENV 
+        run: echo $JOB_VAR
+
+
+
+
+
+
+
+
+
+
+
+
+      
+===================================================
+100 tasks
+Блок 1 — Первый workflow (1–20)
+1.Создай новый GitHub репозиторий
+2.Создай папку .github/workflows
+3.Создай файл main.yml
+4.Напиши минимальный workflow
+5.Добавь name для workflow
+6.Настрой запуск при push
+7.Добавь один job
+8.Назови job build
+9.Укажи runs-on: ubuntu-latest
+10.Добавь один step
+11.Добавь name для step
+12.Добавь run: echo "Hello World"
+13.Сделай второй step
+14.Выведи текущую дату (date)
+15.Выведи текущую директорию (pwd)
+16.Выведи список файлов (ls)
+17.Добавь 3 шага подряд
+
+Решение
+name: My first job
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello World!
+        run: echo "Hello World!"
+      - name: Show date
+        run: date
+      - name: Show our directory
+        run: pwd
+      - name: Show all files and directories
+        run: ls
+
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .
+PS C:\Users\User\Desktop\devroad> git commit -m "12_04_2026 commit#2"
+PS C:\Users\User\Desktop\devroad> git push 
+
+===================================================
+18.Переименуй workflow
+19.Переименуй job
+20.Измени текст echo
+
+Решение
+name: My first job - rename
+on: push
+jobs:
+  build-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello World!
+        run: echo "Hello World!"
+      - name: Show date - rename
+      #I changes date for cal
+        run: date
+      - name: Show our directory
+        run: pwd
+      - name: Show all files and directories
+        run: ls
+
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "12_04_2026 commit#4"
+PS C:\Users\User\Desktop\devroad> git push     
+
+===================================================
+
+
+
+====================================================
+Блок 2 — Trigger (21–40)
+21.Сделай запуск только при push в main
+22.Добавь trigger на pull_request
+23.Добавь ручной запуск (workflow_dispatch)
+24.Запусти workflow вручную
+25.Добавь несколько triggers одновременно
+26.Ограничь запуск только на одну ветку
+
+Решение
+name: My second job
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+    
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Hello World!
+        run: echo "Hello World!"
+
+
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "12_04_2026 commit#6"
+PS C:\Users\User\Desktop\devroad> git push    
+====================================================
+27.Добавь trigger на несколько веток
+
+Решение
+В терминале
+====================================================
+28.Убери один trigger
+
+Решение
+В терминале
+====================================================
+29.Сделай workflow только для pull_request
+
+Решение
+В терминале
+====================================================
+30.Измени событие на push + PR
+
+Решение
+В терминале
+====================================================
+31.Добавь комментарий в YAML
+
+Решение
+В терминале
+====================================================
+32.Попробуй сломать YAML (и исправь)
+
+Решение
+В терминале
+====================================================
+33.Проверь отступы
+
+Решение
+В терминале
+====================================================
+34.Убедись, что workflow запускается
+
+Решение
+В терминале
+====================================================
+35.Сделай commit → проверь запуск
+
+Решение
+В терминале
+====================================================
+36.Сделай PR → проверь запуск
+
+Решение
+В терминале
+====================================================
+37.Измени имя workflow в UI
+
+Решение
+В терминале
+====================================================
+38.Удали workflow и создай заново
+
+Решение
+В терминале
+====================================================
+39.Создай второй workflow файл
+
+Решение
+В терминале
+====================================================
+40.Запусти оба workflow
+
+Решение
+В терминале
+====================================================
+
+
+
+Блок 3 — Jobs (41–60)
+Добавь второй job
+Назови его test
+Сделай разные echo в каждом job
+Используй runs-on в обоих
+Добавь 2 step в каждый job
+Поменяй порядок job
+Удали один job
+Добавь снова job
+Добавь третий job
+Назови его deploy
+Сделай разные имена job
+Используй одинаковые шаги в двух job
+Добавь echo "job 1" / "job 2"
+Измени название job
+Убедись, что все jobs запускаются
+Запусти workflow несколько раз
+Проверь логи каждого job
+Найди вкладку Actions в GitHub
+Посмотри статус job
+Найди failed job (искусственно сломай)
+
+
+
+Блок 4 — Steps (61–80)
+Добавь 5 шагов подряд
+Каждый step должен иметь name
+Сделай step без name
+Добавь echo в каждый step
+Сделай step с несколькими командами
+Используй run: |
+Добавь команды:
+echo 1
+echo 2
+echo 3
+Добавь step с ошибкой (exit 1)
+Посмотри, где падает workflow
+Исправь ошибку
+Добавь step в начало
+Добавь step в конец
+Поменяй порядок шагов
+Удали step
+Дублируй step
+Сделай step с whoami
+Добавь uname -a
+Выведи $HOME
+Выведи $PWD
+Проверь лог выполнения
+
+
+
+
+Блок 5 — Переменные (81–90)
+Добавь env переменную
+Выведи её через echo
+Измени значение переменной
+Добавь несколько переменных
+Используй переменную в команде
+Добавь env на уровне job
+Добавь env на уровне step
+Сравни поведение
+Удали переменную
+Создай новую переменную
+
+
+
+
+Блок 6 — Практика (91–100)
+Сделай workflow с 1 job и 5 шагами
+Добавь echo в каждом шаге
+Добавь trigger push
+Добавь trigger manual
+Добавь второй workflow
+Сделай 2 job в одном workflow
+Добавь переменные
+Добавь команды Linux
+Проверь лог полностью
+Удали всё и сделай заново с нуля
