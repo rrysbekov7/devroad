@@ -1,0 +1,14 @@
+name: My first job
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello World!
+        run: echo "Hello World!"
+      - name: Show date
+        run: date
+      - name: Show our directory
+        run: pwd
+      - name: Show all files and directories
+        run: ls

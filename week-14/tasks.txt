@@ -395,28 +395,240 @@ PS C:\Users\User\Desktop\devroad> git commit -m "10_04_2026 commit#2"
 PS C:\Users\User\Desktop\devroad> git push
 ===================================================
 36.Добавь переменную окружения
-
-Решение
-
-В терминале
-===================================================
 37.Используй эту переменную в echo
-
-Решение
-В терминале
-===================================================
 38.Сделай workflow с trigger только для main ветки
-
-Решение
-В терминале
-===================================================
 39.Добавь несколько events (push + pull_request)
 
 Решение
+name: My code#2
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  GLOBAL_VAR: "Hello from global env"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR: "Hello from Job"
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v3
+      - name: Print ls command
+        run: ls 
+      - name: Print pwd command 
+        run: pwd
+      - name: Create file
+        run: echo "hello from github actions" > file.txt
+      - name: Looking the file content
+        run: cat file.txt 
+      - name: Print Global Env 
+        run: echo $GLOBAL_VAR
+      - name: Print Job ENV 
+        run: echo $JOB_VAR
+
+      
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "10_04_2026 commit#4"
+PS C:\Users\User\Desktop\devroad> git push  
 ===================================================
 40.Попробуй сломать workflow и исправить
 
 Решение
+name: My code#2
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  GLOBAL_VAR: "Hello from global env"
+jobs:
+  test:
+    runs-on: ubuntu:latest
+    env:
+      JOB_VAR: "Hello from Job"
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v99
+      - name: Print ls command
+        run: ls 
+      - name: Print pwd command 
+        run: pwd
+      - name: Create file
+        run: echo "hello from github actions" > file.txt
+      - name: Looking the file content
+        run: cat file.txt 
+      - name: Print Global Env 
+        run: echo $GLOBAL_VAR_WRONG
+      - name: Print Job ENV 
+        run: echo $JOB_VAR
+
+
+
+
+
+
+
+
+
+
+
+
+      
+===================================================
+100 tasks
+Блок 1 — Первый workflow (1–20)
+1.Создай новый GitHub репозиторий
+2.Создай папку .github/workflows
+3.Создай файл main.yml
+4.Напиши минимальный workflow
+5.Добавь name для workflow
+6.Настрой запуск при push
+7.Добавь один job
+8.Назови job build
+9.Укажи runs-on: ubuntu-latest
+10.Добавь один step
+11.Добавь name для step
+12.Добавь run: echo "Hello World"
+13.Сделай второй step
+14.Выведи текущую дату (date)
+15.Выведи текущую директорию (pwd)
+16.Выведи список файлов (ls)
+17.Добавь 3 шага подряд
+
+Решение
+
+В терминале
+
+===================================================
+18.Переименуй workflow
+
+Решение
 В терминале
 ===================================================
+19.Переименуй job
+
+Решение
+В терминале
+===================================================
+20.Измени текст echo
+
+Решение
+В терминале
+===================================================
+
+
+
+====================================================
+Блок 2 — Trigger (21–40)
+Сделай запуск только при push в main
+Добавь trigger на pull_request
+Добавь ручной запуск (workflow_dispatch)
+Запусти workflow вручную
+Добавь несколько triggers одновременно
+Ограничь запуск только на одну ветку
+Добавь trigger на несколько веток
+Убери один trigger
+Сделай workflow только для pull_request
+Измени событие на push + PR
+Добавь комментарий в YAML
+Попробуй сломать YAML (и исправь)
+Проверь отступы
+Убедись, что workflow запускается
+Сделай commit → проверь запуск
+Сделай PR → проверь запуск
+Измени имя workflow в UI
+Удали workflow и создай заново
+Создай второй workflow файл
+Запусти оба workflow
+
+
+
+Блок 3 — Jobs (41–60)
+Добавь второй job
+Назови его test
+Сделай разные echo в каждом job
+Используй runs-on в обоих
+Добавь 2 step в каждый job
+Поменяй порядок job
+Удали один job
+Добавь снова job
+Добавь третий job
+Назови его deploy
+Сделай разные имена job
+Используй одинаковые шаги в двух job
+Добавь echo "job 1" / "job 2"
+Измени название job
+Убедись, что все jobs запускаются
+Запусти workflow несколько раз
+Проверь логи каждого job
+Найди вкладку Actions в GitHub
+Посмотри статус job
+Найди failed job (искусственно сломай)
+
+
+
+Блок 4 — Steps (61–80)
+Добавь 5 шагов подряд
+Каждый step должен иметь name
+Сделай step без name
+Добавь echo в каждый step
+Сделай step с несколькими командами
+Используй run: |
+Добавь команды:
+echo 1
+echo 2
+echo 3
+Добавь step с ошибкой (exit 1)
+Посмотри, где падает workflow
+Исправь ошибку
+Добавь step в начало
+Добавь step в конец
+Поменяй порядок шагов
+Удали step
+Дублируй step
+Сделай step с whoami
+Добавь uname -a
+Выведи $HOME
+Выведи $PWD
+Проверь лог выполнения
+
+
+
+
+Блок 5 — Переменные (81–90)
+Добавь env переменную
+Выведи её через echo
+Измени значение переменной
+Добавь несколько переменных
+Используй переменную в команде
+Добавь env на уровне job
+Добавь env на уровне step
+Сравни поведение
+Удали переменную
+Создай новую переменную
+
+
+
+
+Блок 6 — Практика (91–100)
+Сделай workflow с 1 job и 5 шагами
+Добавь echo в каждом шаге
+Добавь trigger push
+Добавь trigger manual
+Добавь второй workflow
+Сделай 2 job в одном workflow
+Добавь переменные
+Добавь команды Linux
+Проверь лог полностью
+Удали всё и сделай заново с нуля
