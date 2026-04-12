@@ -1,16 +1,12 @@
-name: My second job
+name: My new job
 
-on:
-  push:
-  branches:
-  - master
+on: push
     
-# This is my Jobs:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Install Checkout
-        uses: actions/checkout@v1
-      - name: Print Hello World!
-        run: echo "Hello World!"
+        uses: actions/checkout@v4
+      - name: Print date
+        run: date

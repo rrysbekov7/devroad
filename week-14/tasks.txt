@@ -659,16 +659,34 @@ jobs:
         run: echo "Hello World!"
 
 В терминале
-
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "12_04_2026 commit#12"
+PS C:\Users\User\Desktop\devroad> git push      
 ====================================================
 37.Измени имя workflow в UI
 
 Решение
-В терминале
+Через Github через репозиторий сделал изменения и сделал Push
 ====================================================
 38.Удали workflow и создай заново
 
 Решение
+Удалил main.yml и создал newmain.yml
+
+и в него написал:
+name: My new job
+
+on: push
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print date
+        run: date
+
 В терминале
 ====================================================
 39.Создай второй workflow файл
