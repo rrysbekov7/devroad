@@ -583,9 +583,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Hello World!
+        run: echo "Hello World!"
 
 
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                          
+PS C:\Users\User\Desktop\devroad> git commit -m "12_04_2026 commit#6"
+PS C:\Users\User\Desktop\devroad> git push    
 ====================================================
 27.Добавь trigger на несколько веток
 
