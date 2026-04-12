@@ -596,54 +596,70 @@ PS C:\Users\User\Desktop\devroad> git commit -m "12_04_2026 commit#6"
 PS C:\Users\User\Desktop\devroad> git push    
 ====================================================
 27.Добавь trigger на несколько веток
-
-Решение
-В терминале
-====================================================
 28.Убери один trigger
-
-Решение
-В терминале
-====================================================
 29.Сделай workflow только для pull_request
-
-Решение
-В терминале
-====================================================
 30.Измени событие на push + PR
-
-Решение
-В терминале
-====================================================
 31.Добавь комментарий в YAML
 
 Решение
+name: My second job
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+    
+# This is my Jobs:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Hello World!
+        run: echo "Hello World!"
+
+
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "12_04_2026 commit#10"
+PS C:\Users\User\Desktop\devroad> git push 
+
 ====================================================
 32.Попробуй сломать YAML (и исправь)
-
-Решение
-В терминале
-====================================================
 33.Проверь отступы
-
-Решение
-В терминале
-====================================================
 34.Убедись, что workflow запускается
-
-Решение
-В терминале
-====================================================
 35.Сделай commit → проверь запуск
-
-Решение
-В терминале
-====================================================
 36.Сделай PR → проверь запуск
 
 Решение
+name: My second job
+
+on:
+  push:
+  # отступы передвинул назад
+  branches:
+  - master
+    
+# This is my Jobs:
+jobs:
+  build:
+  # знак : поставил вместо -
+    runs-on: ubuntu:latest
+    steps:
+      - name: Install Checkout
+      # - версия старая
+        uses: actions/checkout@v1 
+      - name: Print Hello World!
+        run: echo "Hello World!"
+
 В терминале
+
 ====================================================
 37.Измени имя workflow в UI
 
