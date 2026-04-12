@@ -4,7 +4,6 @@ on: push
     
 jobs:
   build:
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Install Checkout
@@ -17,7 +16,25 @@ jobs:
         run: echo "Hello World! PART2"
       - name: Print Hello World! PART3
         run: echo "Hello World! PART3"
+      - name: print job1
+        run: echo "job1"
   test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print date
+        run: date
+      - name: Print Hello World!
+        run: echo "Hello World!"
+      - name: Print Hello World! PART2"
+        run: echo "Hello World! PART2"
+      - name: Print Hello World! PART3
+        run: echo "Hello World! PART3"
+      - name: print job2
+        run: echo "job2"
+
+  deploy-rename:
     runs-on: ubuntu-latest
     steps:
       - name: Install Checkout
@@ -28,3 +45,4 @@ jobs:
         run: echo "Hello Meen"
       - name: Print I am DevOps Engineer
         run: echo "I am a DevOps engineer"
+  
