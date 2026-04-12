@@ -6,9 +6,9 @@ jobs:
     steps:
       - name: Print Hello World!
         run: echo "Hello World!"
-      - name: Show calendaer - rename
+      - name: Show date - rename
       #I changes date for cal
-        run: cal
+        run: date
       - name: Show our directory
         run: pwd
       - name: Show all files and directories
