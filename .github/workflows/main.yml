@@ -1,13 +1,14 @@
-name: My first job
+name: My first job - rename
 on: push
 jobs:
-  build:
+  build-rename:
     runs-on: ubuntu-latest
     steps:
       - name: Print Hello World!
         run: echo "Hello World!"
-      - name: Show date
-        run: date
+      - name: Show calendaer - rename
+      #I changes date for cal
+        run: cal
       - name: Show our directory
         run: pwd
       - name: Show all files and directories
