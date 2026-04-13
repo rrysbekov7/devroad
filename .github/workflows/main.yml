@@ -1,48 +1,13 @@
-name: My new job
+name: My First PipeLine
 
 on: push
-    
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Checkout
-        uses: actions/checkout@v4
-      - name: Print date
-        run: date
-      - name: Print Hello World!
-        run: echo "Hello World!"
-      - name: Print Hello World! PART2"
-        run: echo "Hello World! PART2"
-      - name: Print Hello World! PART3
-        run: echo "Hello World! PART3"
-      - name: print job1
-        run: echo "job1"
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Checkout
-        uses: actions/checkout@v4
-      - name: Print date
-        run: date
-      - name: Print Hello World!
+      - name: Step 1
         run: echo "Hello World!"
-      - name: Print Hello World! PART2"
-        run: echo "Hello World! PART2"
-      - name: Print Hello World! PART3
-        run: echo "Hello World! PART3"
-      - name: print job2
-        run: echo "job2"
-
-  deploy-rename:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Checkout
-        uses: actions/checkout@v4
-      - name: Print I am Big boy
-        run: echo "I am big boy"
-      - name: Print Hello Meen
-        run: echo "Hello Meen"
-      - name: Print I am DevOps Engineer
-        run: echo "I am a DevOps engineer"
-  
+      - name: Step 2
+        run: pwd
+      - name: Step 3
+        run: ls 

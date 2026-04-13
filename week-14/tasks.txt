@@ -829,19 +829,62 @@ jobs:
 51.Сделай разные имена job
 52.Используй одинаковые шаги в двух job
 53.Добавь echo "job 1" / "job 2"
-
-Решение
-В терминале
-====================================================
 54.Измени название job
-
-Решение
-В терминале
-====================================================
 55.Убедись, что все jobs запускаются
 
 Решение
+name: My new job
+
+on: push
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print date
+        run: date
+      - name: Print Hello World!
+        run: echo "Hello World!"
+      - name: Print Hello World! PART2"
+        run: echo "Hello World! PART2"
+      - name: Print Hello World! PART3
+        run: echo "Hello World! PART3"
+      - name: print job1
+        run: echo "job1"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print date
+        run: date
+      - name: Print Hello World!
+        run: echo "Hello World!"
+      - name: Print Hello World! PART2"
+        run: echo "Hello World! PART2"
+      - name: Print Hello World! PART3
+        run: echo "Hello World! PART3"
+      - name: print job2
+        run: echo "job2"
+
+  deploy-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print I am Big boy
+        run: echo "I am big boy"
+      - name: Print Hello Meen
+        run: echo "Hello Meen"
+      - name: Print I am DevOps Engineer
+        run: echo "I am a DevOps engineer"
+  
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "12_04_2026 commit#17"
+PS C:\Users\User\Desktop\devroad> git push 
 ====================================================
 56.Запусти workflow несколько раз
 
