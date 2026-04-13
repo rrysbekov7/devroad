@@ -956,60 +956,199 @@ PS C:\Users\User\Desktop\devroad> git push
 71.Добавь step в начало
 72.Добавь step в конец
 73.Поменяй порядок шагов
-
-Решение
-В терминале
-====================================================
 74.Удали step
-
-Решение
-В терминале
-====================================================
 75.Дублируй step
-
-Решение
-В терминале
-====================================================
 76.Сделай step с whoami
-
-Решение
-В терминале
-====================================================
 77.Добавь uname -a
-
-Решение
-В терминале
-====================================================
 78.Выведи $HOME
-
-Решение
-В терминале
-====================================================
 79.Выведи $PWD
 
 Решение
+name: 5 Steps task
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print New strep in start
+        run: echo "Start step"
+      - name: Print Hello step 1
+        run: echo "Hello world!"
+      - name: Print ls step 3
+        run: ls -la
+      - name: Print PWD step 2
+        run: pwd 
+      # Представь что я удалил эти шаги
+      #-  run: echo "echo-1"
+      #-  run: echo "echo-2"
+      #-  run: echo "echo-3"
+      - name: Print date step 4
+        run: date 
+      - name: Print date step 4-дубль
+        run: date 
+      #without name step 5
+      - run: echo "Hello from Github" > file.txt
+      - name: Print whoami
+        run: whoami 
+      - name: Print uname
+        run: uname -a 
+      - name: Print HOME
+        run: cd ~
+      - name: Print Step in the end
+        run: echo "My new step in the end"
+
+
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "13_04_2026 commit#12"
+PS C:\Users\User\Desktop\devroad> git push     
 ====================================================
 80.Проверь лог выполнения
 
 Решение
-В терминале
+Я посмотрел на сайте гитхаб
+в разделе Actions и там перешел кликнув на свой push - и там увидел свои логи
 ====================================================
 
 
 
 
 Блок 5 — Переменные (81–90)
-Добавь env переменную
-Выведи её через echo
-Измени значение переменной
-Добавь несколько переменных
-Используй переменную в команде
-Добавь env на уровне job
-Добавь env на уровне step
-Сравни поведение
-Удали переменную
-Создай новую переменную
+81.Добавь env переменную
+82.Выведи её через echo
+
+Решение:
+name: Environment tasks
+
+on: push
+env:
+  GLOBAL_VAR: I am a global env
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR1: I am a job env
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Global env
+        run: echo ${GLOBAL_VAR}
+      - name: Print Job env
+        run: echo ${JOB_VAR1}      
+
+В терминале
+
+=============================================
+83.Измени значение переменной
+
+Решение:
+name: Environment tasks
+
+on: push
+env:
+  GLOBAL_VAR: I am a global env
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR1_RENAME: I am a changed job env
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Global env
+        run: echo ${GLOBAL_VAR}
+      - name: Print Job env
+        run: echo ${JOB_VAR1}      
+
+
+=============================================
+84.Добавь несколько переменных
+85.Используй переменную в команде
+86.Добавь env на уровне job
+
+Решение
+name: Environment tasks
+
+on: push
+env:
+  GLOBAL_VAR: I am a global env
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR1_RENAME: I am a changed job env
+      MY_NAME: Renat
+      MY_TOWN: Bishkek
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Global env
+        run: echo ${GLOBAL_VAR}
+      - name: Print Job env
+        run: echo ${JOB_VAR1}      
+      - name: Print about myself
+        run: |
+              echo "My name is ${MY_NAME}"
+              echo "I was born in ${MY_TOWN}"
+
+=============================================
+87.Добавь env на уровне step
+
+Решение:
+name: Environment tasks
+
+on: push
+env:
+  GLOBAL_VAR: I am a global env
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR1_RENAME: I am a changed job env
+      MY_NAME: Renat
+      MY_TOWN: Bishkek
+
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Global env
+        env:
+          STEP_VAR: John
+        run: echo $STEP_VAR
+      - name: Print Job env
+        run: echo $JOB_VAR1     
+      - name: Print about myself
+        run: |
+              echo "My name is $MY_NAME
+              echo "I was born in $MY_TOWN
+
+================================================
+88.Сравни поведение
+
+===============================================
+89.Удали переменную
+90.Создай новую переменную
+
+Решение:
+name: Environment tasks
+
+on: push
+env:
+  GLOBAL_VAR: I am a global env
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print Job new env
+        env:
+          MY_NEW_ENV: Books
+        run: echo "I like to read $MY_NEW_ENV"
 
 
 

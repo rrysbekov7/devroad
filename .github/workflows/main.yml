@@ -1,36 +1,15 @@
-name: 5 Steps task
+name: Environment tasks
 
 on: push
-
+env:
+  GLOBAL_VAR: I am a global env
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Install Checkout
         uses: actions/checkout@v4
-      - name: Print New strep in start
-        run: echo "Start step"
-      - name: Print Hello step 1
-        run: echo "Hello world!"
-      - name: Print ls step 3
-        run: ls -la
-      - name: Print PWD step 2
-        run: pwd 
-      # Представь что я удалил эти шаги
-      #-  run: echo "echo-1"
-      #-  run: echo "echo-2"
-      #-  run: echo "echo-3"
-      - name: Print date step 4
-        run: date 
-      - name: Print date step 4-дубль
-        run: date 
-      #without name step 5
-      - run: echo "Hello from Github" > file.txt
-      - name: Print whoami
-        run: whoami 
-      - name: Print uname
-        run: uname -a 
-      - name: Print HOME
-        run: cd ~
-      - name: Print Step in the end
-        run: echo "My new step in the end"
+      - name: Print Job new env
+        env:
+          MY_NEW_ENV: Books
+        run: echo "I like to read $MY_NEW_ENV"
