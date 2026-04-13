@@ -8,16 +8,29 @@ jobs:
     steps:
       - name: Install Checkout
         uses: actions/checkout@v4
+      - name: Print New strep in start
+        run: echo "Start step"
       - name: Print Hello step 1
         run: echo "Hello world!"
-      - name: Print PWD step 2
-        run: pwd 
       - name: Print ls step 3
         run: ls -la
+      - name: Print PWD step 2
+        run: pwd 
+      # Представь что я удалил эти шаги
+      #-  run: echo "echo-1"
+      #-  run: echo "echo-2"
+      #-  run: echo "echo-3"
       - name: Print date step 4
         run: date 
-      -  run: echo "echo-1"
-      -  run: echo "echo-2"
-      -  run: echo "echo-3"
+      - name: Print date step 4-дубль
+        run: date 
       #without name step 5
       - run: echo "Hello from Github" > file.txt
+      - name: Print whoami
+        run: whoami 
+      - name: Print uname
+        run: uname -a 
+      - name: Print HOME
+        run: cd ./home
+      - name: Print Step in the end
+        run: echo "My new step in the end"
