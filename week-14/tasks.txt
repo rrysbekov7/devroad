@@ -1066,6 +1066,10 @@ jobs:
       - name: Print Job env
         run: echo ${JOB_VAR1}      
 
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "13_04_2026 commit#14"
+PS C:\Users\User\Desktop\devroad> git push   
 
 =============================================
 84.Добавь несколько переменных
