@@ -10,7 +10,7 @@ jobs:
       - name: Step 2
         run: pwd
       - name: Step 3
-        run: ls 
+        run: ls -la
       # Задание 1
       - name: Who am I
         run: whoami
@@ -18,6 +18,7 @@ jobs:
       - name: System Info
         run: uname -a
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Install Checkout
