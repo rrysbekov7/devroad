@@ -1167,19 +1167,136 @@ jobs:
         run: echo "I like to read $MY_NEW_ENV"
 
 
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "13_04_2026 commit#17"
+PS C:\Users\User\Desktop\devroad> git push  
+=================================================
 
 
 Блок 6 — Практика (91–100)
-Сделай workflow с 1 job и 5 шагами
-Добавь echo в каждом шаге
-Добавь trigger push
-Добавь trigger manual
-Добавь второй workflow
-Сделай 2 job в одном workflow
-Добавь переменные
-Добавь команды Linux
-Проверь лог полностью
-Удали всё и сделай заново с нуля
+91.Сделай workflow с 1 job и 5 шагами
+92.Добавь echo в каждом шаге
+93.Добавь trigger push
+
+Решение
+name: Environment tasks final
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print text1
+        run: echo text1
+      - name: Print text2
+        run: echo text2
+      - name: Print text3
+        run: echo text3
+      - name: Print text4
+        run: echo text4
+      - name: Print text5
+        run: echo text5
+
+В терминале
+
+======================================
+94.Добавь trigger manual
+
+Решение
+name: Environment tasks final
+
+on: workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print text1
+        run: echo text1
+      - name: Print text2
+        run: echo text2
+      - name: Print text3
+        run: echo text3
+      - name: Print text4
+        run: echo text4
+      - name: Print text5
+        run: echo text5
+
+В терминале
+======================================
+95.Добавь второй workflow
+
+Решение
+Второй workflow - task.yml
+name: Second tasks final
+
+on: workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print text1
+        run: echo text1
+      - name: Print text2
+        run: echo text2
+      - name: Print text3
+        run: echo text3
+      - name: Print text4
+        run: echo text4
+      - name: Print text5
+        run: echo text5
+В терминале
+======================================
+96.Сделай 2 job в одном workflow
+97.Добавь переменные
+98.Добавь команды Linux
+
+Решение
+name: Second tasks final
+
+on: workflow_dispatch
+
+env:
+  GLOBAL_VAR: I am from global env
+
+jobs:
+  test:
+    env:
+      JOB_VAR: I am from Job env
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print global env
+        run: echo $GLOBAL_VAR
+      - name: Print Job env
+        run: echo $JOB_VAR
+      - name: Print step env
+        env:
+          STEP_VAR: date
+        run: $STEP_VAR
+     
+В терминале
+======================================
+99.Проверь лог полностью
+
+Решение
+Посмотрел на сайте github -> actions
+======================================
+100.Удали всё и сделай заново с нуля
+
+Решение
+Удалил все и сделал и отправил через git push
+======================================
 
 
 

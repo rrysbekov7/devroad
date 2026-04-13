@@ -1,15 +1,20 @@
-name: Environment tasks
+name: Environment tasks final
 
 on: push
-env:
-  GLOBAL_VAR: I am a global env
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Install Checkout
         uses: actions/checkout@v4
-      - name: Print Job new env
-        env:
-          MY_NEW_ENV: Books
-        run: echo "I like to read $MY_NEW_ENV"
+      - name: Print text1
+        run: echo text1
+      - name: Print text2
+        run: echo text2
+      - name: Print text3
+        run: echo text3
+      - name: Print text4
+        run: echo text4
+      - name: Print text5
+        run: echo text5
