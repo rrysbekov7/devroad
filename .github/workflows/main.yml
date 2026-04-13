@@ -1,27 +1,23 @@
-name: My First PipeLine
+name: 5 Steps task
 
 on: push
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Step 1
-        run: echo "Hello World!"
-      - name: Step 2
-        run: pwd
-      - name: Step 3
-        run: ls -la
-      # Задание 1
-      - name: Who am I
-        run: whoami
-      # Задание 2
-      - name: System Info
-        run: uname -a
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
       - name: Install Checkout
         uses: actions/checkout@v4
-      - name: Print date
-        run: date
+      - name: Print Hello step 1
+        run: echo "Hello world!"
+      - name: Print PWD step 2
+        run: pwd 
+      - name: Print ls step 3
+        run: ls -la
+      - name: Print date step 4
+        run: date 
+      -  run: echo "echo-1"
+      -  run: echo "echo-2"
+      -  run: echo "echo-3"
+      #without name step 5
+      - run: top 
