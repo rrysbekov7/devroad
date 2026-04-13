@@ -11,3 +11,9 @@ jobs:
         run: pwd
       - name: Step 3
         run: ls 
+      # Задание 1
+      - name: Who am I
+        run: whoami
+      # Задание 2
+      - name: System Info
+        run: uname -a
