@@ -31,6 +31,6 @@ jobs:
       - name: Print uname
         run: uname -a 
       - name: Print HOME
-        run: cd ~/home
+        run: cd ~
       - name: Print Step in the end
         run: echo "My new step in the end"
