@@ -1101,6 +1101,11 @@ jobs:
               echo "My name is ${MY_NAME}"
               echo "I was born in ${MY_TOWN}"
 
+
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "13_04_2026 commit#15"
+PS C:\Users\User\Desktop\devroad> git push  
 =============================================
 87.Добавь env на уровне step
 

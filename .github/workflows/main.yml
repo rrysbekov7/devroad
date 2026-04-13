@@ -10,14 +10,17 @@ jobs:
       JOB_VAR1_RENAME: I am a changed job env
       MY_NAME: Renat
       MY_TOWN: Bishkek
+
     steps:
       - name: Install Checkout
         uses: actions/checkout@v4
       - name: Print Global env
-        run: echo ${GLOBAL_VAR}
+        env:
+          STEP_VAR: John
+        run: echo $STEP_VAR
       - name: Print Job env
-        run: echo ${JOB_VAR1}      
+        run: echo $JOB_VAR1     
       - name: Print about myself
         run: |
-              echo "My name is ${MY_NAME}"
-              echo "I was born in ${MY_TOWN}"
+              echo "My name is $MY_NAME
+              echo "I was born in $MY_TOWN
