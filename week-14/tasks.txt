@@ -1231,36 +1231,17 @@ jobs:
         run: echo text5
 
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "13_04_2026 commit#19"
+PS C:\Users\User\Desktop\devroad> git push      
 ======================================
 95.Добавь второй workflow
-
-Решение
-Второй workflow - task.yml
-name: Second tasks final
-
-on: workflow_dispatch
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Checkout
-        uses: actions/checkout@v4
-      - name: Print text1
-        run: echo text1
-      - name: Print text2
-        run: echo text2
-      - name: Print text3
-        run: echo text3
-      - name: Print text4
-        run: echo text4
-      - name: Print text5
-        run: echo text5
-В терминале
-======================================
 96.Сделай 2 job в одном workflow
 97.Добавь переменные
 98.Добавь команды Linux
+
+Решение
+Второй workflow - task.yml
 
 Решение
 name: Second tasks final
