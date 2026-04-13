@@ -1,6 +1,6 @@
 name: Environment tasks final
 
-on: push
+on: workflow_dispatch
 
 jobs:
   test:
