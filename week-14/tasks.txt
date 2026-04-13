@@ -1137,8 +1137,13 @@ jobs:
               echo "My name is $MY_NAME
               echo "I was born in $MY_TOWN
 
+В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "13_04_2026 commit#16"
+PS C:\Users\User\Desktop\devroad> git push 
 ================================================
 88.Сравни поведение
+Я не знаю что тут делать
 
 ===============================================
 89.Удали переменную

@@ -6,21 +6,10 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      JOB_VAR1_RENAME: I am a changed job env
-      MY_NAME: Renat
-      MY_TOWN: Bishkek
-
     steps:
       - name: Install Checkout
         uses: actions/checkout@v4
-      - name: Print Global env
+      - name: Print Job new env
         env:
-          STEP_VAR: John
-        run: echo $STEP_VAR
-      - name: Print Job env
-        run: echo $JOB_VAR1     
-      - name: Print about myself
-        run: |
-              echo "My name is $MY_NAME
-              echo "I was born in $MY_TOWN
+          MY_NEW_ENV: Books
+        run: echo "I like to read $MY_NEW_ENV"
