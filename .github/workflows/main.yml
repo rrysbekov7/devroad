@@ -6,10 +6,12 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      JOB_VAR1_RENAME: I am a changed job env
     steps:
       - name: Install Checkout
         uses: actions/checkout@v4
-      - name: Print Job new env
-        env:
-          MY_NEW_ENV: Books
-        run: echo "I like to read $MY_NEW_ENV"
+      - name: Print Global env
+        run: echo ${GLOBAL_VAR}
+      - name: Print Job env
+        run: echo ${JOB_VAR1}      
