@@ -17,5 +17,10 @@ jobs:
       # Задание 2
       - name: System Info
         run: uname -a
-      # Задание 3 - Специально написал Ошибку
-      -  run: exit 1
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Checkout
+        uses: actions/checkout@v4
+      - name: Print date
+        run: date
