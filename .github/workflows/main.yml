@@ -1,23 +1,19 @@
-name: Second tasks final
+name: Hello World Workflow
 
-on: workflow_dispatch
-
-env:
-  GLOBAL_VAR: I am from global env
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
-  test:
-    env:
-      JOB_VAR: I am from Job env
+  say-hello:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Install Checkout
-        uses: actions/checkout@v4
-      - name: Print global env
-        run: echo $GLOBAL_VAR
-      - name: Print Job env
-        run: echo $JOB_VAR
-      - name: Print step env
-        env:
-          STEP_VAR: date
-        run: $STEP_VAR
+      - name: Say Hello
+        run: echo "Hello World!"
+
+      - name: Show date
+        run: echo "Current date is $(date)"
+
+      - name: Show repository name
+        run: echo "Repository is $GITHUB_REPOSITORY"
