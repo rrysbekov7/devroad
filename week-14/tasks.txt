@@ -1269,6 +1269,9 @@ jobs:
         run: $STEP_VAR
      
 В терминале
+PS C:\Users\User\Desktop\devroad> git add .                           
+PS C:\Users\User\Desktop\devroad> git commit -m "13_04_2026 commit#20"
+PS C:\Users\User\Desktop\devroad> git push    
 ======================================
 99.Проверь лог полностью
 
