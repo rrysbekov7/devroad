@@ -1,0 +1,27 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello
+        run: echo "Hello World!"
+      - name: Print date
+        run: date
+      - name: Print repository
+        run: echo $GITHUB_REPOSITORY
+  my-sex-story:
+    needs: say-hello
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print hash commit
+        run: echo $GITHUB_SHA
+      - name: Print pwd
+        run: pwd
+

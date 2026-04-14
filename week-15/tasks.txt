@@ -1,0 +1,164 @@
+1.Создай репозиторий на GitHub и добавь файл README.md
+2.Создай папку .github/workflows/ в репозитории
+3.Создай файл hello.yml — workflow который выводит "Hello World" в консоль
+4.Запусти workflow вручную через кнопку workflow_dispatch
+
+Решение
+name: Hello World Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello
+        run: echo "Hello World!"
+
+
+В терминале
+===========================================================
+5.Настрой триггер on: push — workflow запускается при каждом push
+
+Решение
+
+name: Hello World Workflow
+
+on:
+  push:
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello
+        run: echo "Hello World!"
+
+
+В терминале
+===========================================================
+6.Настрой триггер только на ветку main
+
+Решение
+
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello
+        run: echo "Hello World!"
+
+
+В терминале
+===========================================================
+7.Добавь job с несколькими steps
+9.Добавь в workflow шаг echo "Current date: $(date)"
+10.Используй runs-on: ubuntu-latest и проверь какая система запускается
+Решение
+ubuntu version: 24.04.4 LTS
+
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello
+        run: echo "Hello World!"
+      - name: Print date
+        run: echo "Current date: $(date)"
+      - name: Print repository
+        run: echo $GITHUB_REPOSITORY
+
+В терминале
+===========================================================
+8.Посмотри логи выполнения workflow во вкладке "Actions"
+
+Решение
+
+
+В терминале
+===========================================================
+11.Добавь второй job и сделай его зависимым от первого через needs
+12.Добавь шаг который выводит переменную окружения $GITHUB_REPOSITORY
+13.Добавь шаг который выводит $GITHUB_SHA (хэш коммита)
+
+Решение
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello
+        run: echo "Hello World!"
+      - name: Print date
+        run: date
+      - name: Print repository
+        run: echo $GITHUB_REPOSITORY
+  my-sex-story:
+    needs: say-hello
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print hash commit
+        run: echo $GITHUB_SHA
+      - name: Print pwd
+        run: pwd
+
+
+
+В терминале
+===========================================================
+14.Создай workflow с именем, которое отображается во вкладке Actions
+
+Решение
+В терминале
+===========================================================
+15.Отключи workflow через интерфейс GitHub и снова включи
+
+Решение
+В терминале
+===========================================================
+Добавьте шаг docker --version, чтобы убедиться, что Docker доступен на runner
+Напиши простой Dockerfile— образ на основеnginx:alpine
+Добавить на шаг рабочего процессаdocker build -t myapp .
+Убедись, что образ успешно собирается — посмотреть логи
+Добавить тег с именемmyapp:latest
+Добавить тег с номеромmyapp:v1.0
+Создай аккаунт в Docker Hub (если нет)
+Создан публичный репозиторий в Docker Hub.
+Добавить секрет DOCKER_USERNAMEв компонент репозитория GitHub
+Добавить секрет DOCKER_PASSWORDв компонент репозитория GitHub
+Добавить шаг авторизации в Docker Hub черезdocker/login-action@v3
+Убедимся, что авторизация проходит успешно (без ошибок в логах)
+Добавить шагdocker push myusername/myapp:latest
+Проверка на Docker Hub — появился ли образ
+Добавь шаг, который выводит список локальных образов:docker images
+Собери образ с тегом ${{ github.sha }}(уникальный тег по коммиту)
+Попробуй использовать действие docker/build-push-action@v5вместо ручных команд
+Настрой context: .и file: ./Dockerfileв строй-толкай-действии
+Установи push: false— просто собери, не пушь
+Измени на push: trueи запусти — изображение должно появиться в Docker Hub
