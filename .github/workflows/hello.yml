@@ -1,27 +1,12 @@
-name: Hello World Workflow
+name: If tasks
 
-on:
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
-  say-hello:
+  test:
     runs-on: ubuntu-latest
-
+    if: github.ref == 'refs/head/main'
     steps:
-      - name: Say Hello
-        run: echo "Hello World!"
-      - name: Print date
-        run: date
-      - name: Print repository
-        run: echo $GITHUB_REPOSITORY
-  my-sex-story:
-    needs: say-hello
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print hash commit
-        run: echo $GITHUB_SHA
-      - name: Print pwd
-        run: pwd
+      - name: Install Actions
+        uses: actions/checkout@v4
 
