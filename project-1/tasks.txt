@@ -1,9 +1,0 @@
-1. Personal Portfolio / Resume Site (самый первый проект)
-
-Nginx + статический сайт (HTML/CSS или готовый шаблон)
-Dockerfile
-Docker Compose (nginx + возможно whoami для теста)
-GitHub repo + GitHub Actions: build → push image → deploy на твой Ubuntu сервер по SSH
-systemd сервис + auto-restart
-
-
